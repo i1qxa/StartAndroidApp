@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Start Android App</string>
+    <string name="btn_category_text">CATEGORY</string>
+    <string name="btn_favorite_text">FAVORITE</string>
 </resources>
