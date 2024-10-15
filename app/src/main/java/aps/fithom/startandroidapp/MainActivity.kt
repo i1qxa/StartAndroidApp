@@ -20,5 +20,17 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        launchCategoryListFragment()
     }
+
+    private fun launchCategoryListFragment() {
+
+        supportFragmentManager.beginTransaction().apply {
+            add(R.id.mainContainer, CategoriesListFragment())
+            addToBackStack(null)
+            commit()
+        }
+
+    }
+
 }

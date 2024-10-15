@@ -9,6 +9,16 @@
     android:background="@color/background_main"
     >
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mainContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llBtnConteiner"
+        android:layout_marginBottom="@dimen/main_space_8"
+        />
 
 
     <LinearLayout
