@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginHorizontal="@dimen/margin_main"
-        android:layout_marginBottom="@dimen/margin_main_half"
+        android:layout_marginBottom="@dimen/main_space_8"
         >
 
         <Button
