@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import aps.fithom.startandroidapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -26,13 +27,41 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        if (savedInstanceState == null) launchCategoryListFragment()
+        if (savedInstanceState == null) initCategoryListFragment()
+        setupBtnClickListeners()
     }
 
-    private fun launchCategoryListFragment() {
+    private fun initCategoryListFragment() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<CategoriesListFragment>(R.id.mainContainer)
+        }
+    }
+
+    private fun setupBtnClickListeners(){
+        with(binding){
+            btnCategory.setOnClickListener {
+                launchCategoryListFragment()
+            }
+            btnFavorite.setOnClickListener {
+                launchFavoritesFragment()
+            }
+        }
+    }
+
+    private fun launchCategoryListFragment(){
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            addToBackStack(null)
+            replace<CategoriesListFragment>(R.id.mainContainer)
+        }
+    }
+
+    private fun launchFavoritesFragment(){
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            addToBackStack(null)
+            replace<FavoritesFragment>(R.id.mainContainer)
         }
     }
 
