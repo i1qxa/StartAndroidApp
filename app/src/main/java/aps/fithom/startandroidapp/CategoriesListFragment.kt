@@ -9,13 +9,20 @@ import aps.fithom.startandroidapp.databinding.FragmentCategoriesListBinding
 
 class CategoriesListFragment : Fragment() {
 
-    private val binding by lazy { FragmentCategoriesListBinding.inflate(layoutInflater) }
+    private var _binding:FragmentCategoriesListBinding? = null
+    private val binding
+        get() = _binding?:throw IllegalStateException("FragmentCategoriesListBinding must not be null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentCategoriesListBinding.inflate(layoutInflater)
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
