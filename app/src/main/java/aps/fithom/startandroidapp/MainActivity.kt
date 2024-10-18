@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -38,30 +39,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupBtnClickListeners(){
-        with(binding){
+    private fun setupBtnClickListeners() {
+        with(binding) {
             btnCategory.setOnClickListener {
-                launchCategoryListFragment()
+                replaceFragment<CategoriesListFragment>()
             }
             btnFavorite.setOnClickListener {
-                launchFavoritesFragment()
+                replaceFragment<FavoritesFragment>()
             }
         }
     }
 
-    private fun launchCategoryListFragment(){
+    private inline fun <reified T : Fragment> replaceFragment() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            addToBackStack(null)
-            replace<CategoriesListFragment>(R.id.mainContainer)
-        }
-    }
-
-    private fun launchFavoritesFragment(){
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            addToBackStack(null)
-            replace<FavoritesFragment>(R.id.mainContainer)
+            replace<T>(binding.mainContainer.id)
         }
     }
 
