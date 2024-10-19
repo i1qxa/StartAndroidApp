@@ -5,8 +5,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import aps.fithom.startandroidapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -26,13 +28,32 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        if (savedInstanceState == null) launchCategoryListFragment()
+        if (savedInstanceState == null) initCategoryListFragment()
+        setupBtnClickListeners()
     }
 
-    private fun launchCategoryListFragment() {
+    private fun initCategoryListFragment() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<CategoriesListFragment>(R.id.mainContainer)
+        }
+    }
+
+    private fun setupBtnClickListeners() {
+        with(binding) {
+            btnCategory.setOnClickListener {
+                replaceFragment<CategoriesListFragment>()
+            }
+            btnFavorite.setOnClickListener {
+                replaceFragment<FavoritesFragment>()
+            }
+        }
+    }
+
+    private inline fun <reified T : Fragment> replaceFragment() {
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace<T>(binding.mainContainer.id)
         }
     }
 
