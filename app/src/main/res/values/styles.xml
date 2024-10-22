@@ -7,6 +7,13 @@
         <item name="textAllCaps">true</item>
         <item name="android:textSize">@dimen/text_size_14sp</item>
     </style>
+
+    <style name="StyleTitle13" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/color_category_name</item>
+        <item name="android:fontFamily">@font/montserrat_alternates_regular_semi_bold</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+    </style>
     
     <style name="StyleNavButton" parent="Widget.Material3.Button">
         <item name="cornerRadius">@dimen/main_space_8</item>
