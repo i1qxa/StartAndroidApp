@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -33,7 +34,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -46,6 +47,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.fragment.ktx)
+    implementation(libs.kotlinx.serialization.json)
 
 //  Test libs
     testImplementation(libs.junit)
