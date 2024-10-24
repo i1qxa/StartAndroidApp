@@ -9,30 +9,26 @@
     app:cardCornerRadius="@dimen/main_space_8"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/clCard"
-        android:layout_width="match_parent"
+        android:layout_width="156dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="@dimen/margin_10dp">
 
         <ImageView
             android:id="@+id/ivCategoryLogo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="156:130"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="156dp"
+            android:layout_height="130dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/bcg_categories" />
+            tools:src="@drawable/bcg_categories"
+            android:contentDescription="@string/category_logo"
+            />
 
         <TextView
             android:id="@+id/tvCategoryName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivCategoryLogo"
             android:layout_margin="@dimen/main_space_8"
             style="@style/StyleTitle14purple"
             tools:text="BURGERS" />
@@ -41,12 +37,10 @@
             android:id="@+id/tvCategoryDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCategoryName"
             android:layout_marginStart="@dimen/main_space_8"
             style="@style/StyleTitle12"
             tools:text="Самые вкусные рецепты десертов специально для вас" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

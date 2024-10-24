@@ -23,6 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/category_logo"
             />
 
         <TextView
@@ -50,6 +51,7 @@
         tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:spanCount="2"
         tools:listitem="@layout/item_category"
+        android:contentDescription="@string/category_list"
         />
 
 </LinearLayout>

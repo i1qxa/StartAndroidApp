@@ -19,13 +19,12 @@
         <item name="android:textColor">@color/color_category_name</item>
         <item name="android:fontFamily">@font/montserrat_alternates_regular_semi_bold</item>
         <item name="textAllCaps">true</item>
-        <item name="android:textSize">@dimen/text_size_20sp</item>
+        <item name="android:textSize">@dimen/text_size_14sp</item>
     </style>
 
     <style name="StyleTitle12" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/black_transparent_60</item>
         <item name="android:fontFamily">@font/montserrat_alternates_regular_semi_bold</item>
-        <item name="textAllCaps">true</item>
         <item name="android:textSize">@dimen/text_size_12sp</item>
     </style>
 
