@@ -2,4 +2,6 @@
     <string name="app_name">Start Android App</string>
     <string name="btn_category_text">category</string>
     <string name="btn_favorite_text">favorite</string>
+    <string name="category_logo">Category logo</string>
+    <string name="category_list">Category list</string>
 </resources>
