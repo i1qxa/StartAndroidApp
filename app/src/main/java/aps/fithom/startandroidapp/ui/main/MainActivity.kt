@@ -1,4 +1,4 @@
-package aps.fithom.startandroidapp
+package aps.fithom.startandroidapp.ui.main
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.ActivityMainBinding
+import aps.fithom.startandroidapp.ui.category_list.CategoriesListFragment
+import aps.fithom.startandroidapp.ui.favorites.FavoritesFragment
 
 class MainActivity : AppCompatActivity() {
 

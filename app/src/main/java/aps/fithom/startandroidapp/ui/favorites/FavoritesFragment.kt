@@ -1,23 +1,23 @@
-package aps.fithom.startandroidapp
+package aps.fithom.startandroidapp.ui.favorites
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import aps.fithom.startandroidapp.databinding.FragmentCategoriesListBinding
+import aps.fithom.startandroidapp.databinding.FragmentFavoritesBinding
 
-class CategoriesListFragment : Fragment() {
+class FavoritesFragment : Fragment() {
 
-    private var _binding:FragmentCategoriesListBinding? = null
+    private var _binding: FragmentFavoritesBinding? = null
     private val binding
-        get() = _binding?:throw IllegalStateException("FragmentCategoriesListBinding must not be null")
+        get() = _binding?:throw IllegalStateException("FragmentFavoritesBinding must not be null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCategoriesListBinding.inflate(layoutInflater)
+        _binding = FragmentFavoritesBinding.inflate(layoutInflater)
         return binding.root
     }
 
