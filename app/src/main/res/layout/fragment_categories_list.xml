@@ -48,8 +48,8 @@
         android:layout_marginTop="@dimen/main_space_8"
         android:layout_marginBottom="@dimen/margin_12dp"
         tools:itemCount="6"
-        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:spanCount="2"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
         tools:listitem="@layout/item_category"
         android:contentDescription="@string/category_list"
         />
