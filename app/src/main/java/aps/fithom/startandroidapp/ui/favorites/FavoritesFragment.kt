@@ -1,4 +1,4 @@
-package aps.fithom.startandroidapp
+package aps.fithom.startandroidapp.ui.favorites
 
 import android.os.Bundle
 import android.view.LayoutInflater
