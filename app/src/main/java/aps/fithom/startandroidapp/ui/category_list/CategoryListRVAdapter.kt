@@ -12,7 +12,18 @@ import aps.fithom.startandroidapp.databinding.ItemCategoryBinding
 import java.io.InputStream
 
 class CategoryListRVAdapter(private val categoryList: List<Category>) :
-    RecyclerView.Adapter<CategoryListViewHolder>() {
+    RecyclerView.Adapter<CategoryListRVAdapter.CategoryListViewHolder>() {
+
+    var itemClickListener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick() {
+        }
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryListViewHolder {
         val binding = ItemCategoryBinding.inflate(LayoutInflater.from(parent.context))
@@ -37,15 +48,20 @@ class CategoryListRVAdapter(private val categoryList: List<Category>) :
             holder.ivCategoryLogo.setImageDrawable(null)
             Log.d("!!!", "Error loading img: ${e.message}")
         }
+        holder.itemView.setOnClickListener {
+            itemClickListener?.onItemClick()
+        }
     }
 
     override fun getItemCount(): Int {
         return categoryList.size
     }
-}
 
-class CategoryListViewHolder(binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
-    val ivCategoryLogo = binding.ivCategoryLogo
-    val tvCategoryName = binding.tvCategoryName
-    val tvCategoryDescription = binding.tvCategoryDescription
+    class CategoryListViewHolder(binding: ItemCategoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        val ivCategoryLogo = binding.ivCategoryLogo
+        val tvCategoryName = binding.tvCategoryName
+        val tvCategoryDescription = binding.tvCategoryDescription
+    }
+
 }
