@@ -12,6 +12,10 @@ import aps.fithom.startandroidapp.data.local.STUB
 import aps.fithom.startandroidapp.databinding.FragmentCategoriesListBinding
 import aps.fithom.startandroidapp.ui.recipes_list.RecipesListFragment
 
+const val ARG_CATEGORY_ID = "category_id"
+const val ARG_CATEGORY_NAME = "category_name"
+const val ARG_CATEGORY_IMAGE_URL = "category_img_url"
+
 class CategoriesListFragment : Fragment() {
 
     private var _binding: FragmentCategoriesListBinding? = null
@@ -36,17 +40,26 @@ class CategoriesListFragment : Fragment() {
         val recycler = binding.rvCategory
         val rvAdapter = CategoryListRVAdapter(STUB.getCategories())
         rvAdapter.setOnItemClickListener(object : CategoryListRVAdapter.OnItemClickListener {
-            override fun onItemClick() {
-                openRecipesByCategoryId()
+            override fun onItemClick(categoryId: Int) {
+                STUB.getCategories().find { it.id == categoryId }?.let { category ->
+                    val categoryName = category.title
+                    val categoryImgUrl = category.imageUrl
+                    val bundle = Bundle().apply {
+                        putInt(ARG_CATEGORY_ID, categoryId)
+                        putString(ARG_CATEGORY_NAME, categoryName)
+                        putString(ARG_CATEGORY_IMAGE_URL, categoryImgUrl)
+                    }
+                    openRecipesByCategoryId(bundle)
+                }
             }
         })
         recycler.adapter = rvAdapter
     }
 
-    private fun openRecipesByCategoryId() {
+    private fun openRecipesByCategoryId(args:Bundle) {
         parentFragmentManager.commit {
             setReorderingAllowed(true)
-            add<RecipesListFragment>(R.id.mainContainer)
+            add<RecipesListFragment>(R.id.mainContainer, args = args)
         }
     }
 
