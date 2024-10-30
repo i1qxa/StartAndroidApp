@@ -1,17 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.recipes_list.RecipesListFragment"
     android:background="@color/background_main"
-    >
+    android:orientation="vertical">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCategoryHeader"
+        android:layout_width="match_parent"
+        android:layout_height="224dp"
+        >
+
+        <ImageView
+            android:id="@+id/ivCategoryImg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            tools:src="@drawable/bcg_categories"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tvCategoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/margin_main"
+            tools:text="burgers"
+            style="@style/StyleTitle20"
+            android:background="@drawable/shape_rounded_tv"
+            android:padding="@dimen/margin_10dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Fragment Recipe List"
-        android:gravity="center"
+        android:layout_marginHorizontal="@dimen/margin_main"
+        android:layout_marginBottom="@dimen/margin_20dp"
+        tools:itemCount="6"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_recipe"
         />
 
-</FrameLayout>
+</LinearLayout>

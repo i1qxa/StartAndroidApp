@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_main"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/main_space_8"
+    android:clickable="true"
+    android:focusable="true"
+    >
+
+    <LinearLayout
+        android:id="@+id/clCardRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_10dp">
+
+        <ImageView
+            android:id="@+id/ivRecipeLogo"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/bcg_categories"
+            />
+
+        <TextView
+            android:id="@+id/tvRecipeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/main_space_8"
+            style="@style/StyleTitle14purple"
+            tools:text="BURGERS" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
