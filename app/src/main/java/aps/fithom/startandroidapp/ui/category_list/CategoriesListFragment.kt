@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
@@ -44,11 +45,11 @@ class CategoriesListFragment : Fragment() {
                 STUB.getCategories().find { it.id == categoryId }?.let { category ->
                     val categoryName = category.title
                     val categoryImgUrl = category.imageUrl
-                    val bundle = Bundle().apply {
-                        putInt(ARG_CATEGORY_ID, categoryId)
-                        putString(ARG_CATEGORY_NAME, categoryName)
-                        putString(ARG_CATEGORY_IMAGE_URL, categoryImgUrl)
-                    }
+                    val bundle = bundleOf(
+                        ARG_CATEGORY_ID to categoryId,
+                        ARG_CATEGORY_NAME to categoryName,
+                        ARG_CATEGORY_IMAGE_URL to categoryImgUrl
+                    )
                     openRecipesByCategoryId(bundle)
                 }
             }
@@ -56,7 +57,7 @@ class CategoriesListFragment : Fragment() {
         recycler.adapter = rvAdapter
     }
 
-    private fun openRecipesByCategoryId(args:Bundle) {
+    private fun openRecipesByCategoryId(args: Bundle) {
         parentFragmentManager.commit {
             setReorderingAllowed(true)
             add<RecipesListFragment>(R.id.mainContainer, args = args)

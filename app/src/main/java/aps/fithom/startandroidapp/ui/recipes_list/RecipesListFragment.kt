@@ -16,9 +16,9 @@ class RecipesListFragment : Fragment() {
     private val binding: FragmentRecipesListBinding
         get() = _binding
             ?: throw (IllegalStateException("FragmentRecipesListBinding must not be null"))
-    private var categoryId:Int? = null
-    private var categoryName:String? = null
-    private var categoryImageUrl:String? = null
+    private var categoryId: Int? = null
+    private var categoryName: String? = null
+    private var categoryImageUrl: String? = null
 
 
     override fun onCreateView(

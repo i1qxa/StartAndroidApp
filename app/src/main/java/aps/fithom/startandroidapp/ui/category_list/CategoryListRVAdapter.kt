@@ -17,7 +17,7 @@ class CategoryListRVAdapter(private val categoryList: List<Category>) :
     var itemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(categoryId:Int)
+        fun onItemClick(categoryId: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
