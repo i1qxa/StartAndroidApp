@@ -17,8 +17,7 @@ class CategoryListRVAdapter(private val categoryList: List<Category>) :
     var itemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick() {
-        }
+        fun onItemClick(categoryId: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -49,7 +48,7 @@ class CategoryListRVAdapter(private val categoryList: List<Category>) :
             Log.d("!!!", "Error loading img: ${e.message}")
         }
         holder.itemView.setOnClickListener {
-            itemClickListener?.onItemClick()
+            itemClickListener?.onItemClick(item.id)
         }
     }
 
