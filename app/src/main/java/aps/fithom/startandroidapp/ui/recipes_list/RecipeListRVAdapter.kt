@@ -24,7 +24,7 @@ class RecipeListRVAdapter(private val recipeList: List<Recipe>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
-        val binding = ItemRecipeBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ItemRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RecipeListViewHolder(binding)
     }
 

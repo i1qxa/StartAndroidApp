@@ -11,11 +11,7 @@ class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
     private val binding: FragmentRecipeBinding
-        get() = try {
-            _binding!!
-        } catch (e: Exception) {
-            throw IllegalStateException("FragmentRecipeBinding must not be null")
-        }
+        get() = _binding ?: throw IllegalStateException("FragmentRecipeBinding must not be null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

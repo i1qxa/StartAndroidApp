@@ -19,8 +19,6 @@ import aps.fithom.startandroidapp.ui.category_list.ARG_CATEGORY_NAME
 import aps.fithom.startandroidapp.ui.recipe.RecipeFragment
 import java.io.InputStream
 
-const val ARG_RECIPE_ID = "recipe_id"
-
 class RecipesListFragment : Fragment() {
 
     private var _binding: FragmentRecipesListBinding? = null
@@ -93,4 +91,9 @@ class RecipesListFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
+    companion object{
+        const val ARG_RECIPE_ID = "recipe_id"
+    }
+
 }
