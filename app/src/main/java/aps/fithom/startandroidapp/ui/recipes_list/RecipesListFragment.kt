@@ -70,20 +70,22 @@ class RecipesListFragment : Fragment() {
             rvAdapter.setOnRecipeItemClickListener(object :
                 RecipeListRVAdapter.OnRecipeItemClickListener {
                 override fun onItemClick(recipeId: Int) {
-                    val bundle = bundleOf(
-                        ARG_RECIPE_ID to recipeId
-                    )
-                    openRecipeById(bundle)
+                    STUB.getRecipeById(recipeId)?.let { recipe ->
+                        val bundle = bundleOf(
+                            ARG_RECIPE to recipe
+                        )
+                        openRecipeById(bundle)
+                    }
                 }
             })
             recycler.adapter = rvAdapter
         }
     }
 
-    private fun openRecipeById(args: Bundle) {
+    private fun openRecipeById(bundle: Bundle) {
         parentFragmentManager.commit {
             setReorderingAllowed(true)
-            replace<RecipeFragment>(R.id.mainContainer)
+            replace<RecipeFragment>(R.id.mainContainer, args = bundle)
         }
     }
 
@@ -92,8 +94,9 @@ class RecipesListFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
+    companion object {
         const val ARG_RECIPE_ID = "recipe_id"
+        const val ARG_RECIPE = "arg_recipe"
     }
 
 }
