@@ -1,8 +1,7 @@
 package aps.fithom.startandroidapp.data.local
 
 data class Ingredient(
-    val id: Int,
-    val quantity: Double,
+    val quantity: String,
     val unitOfMeasure: String,
     val description: String,
 )

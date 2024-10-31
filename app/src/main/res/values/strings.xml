@@ -5,5 +5,7 @@
     <string name="category_logo">Category logo</string>
     <string name="category_list">Category list</string>
     <string name="category_image_content_description">%1$s сategory image</string>
+    <string name="content_description_img_of_category">Img of %1$s category</string>
+    <string name="content_description_recipe_img">Img of %1$s recipe</string>
 
 </resources>
