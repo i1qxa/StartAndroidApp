@@ -274,7 +274,7 @@ object STUB {
 
     fun getRecipeById(recipeId: Int): Recipe? {
         return try {
-            burgerRecipes.filter { it.id == recipeId }[0]
+            burgerRecipes.first { it.id == recipeId }
         } catch (e: Exception) {
             null
         }
