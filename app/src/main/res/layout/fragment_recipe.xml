@@ -1,17 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.recipe.RecipeFragment"
-    >
+    android:background="@color/background_main"
+    android:orientation="vertical"
+    tools:context=".ui.recipes_list.RecipesListFragment">
 
-    <TextView
-        android:id="@+id/tvRecipeName"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clRecipeHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_header_height_224dp">
+
+        <ImageView
+            android:id="@+id/ivRecipeImg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/bcg_categories" />
+
+        <TextView
+            android:id="@+id/tvRecipeName"
+            style="@style/StyleTitle20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_main"
+            android:background="@drawable/shape_rounded_tv"
+            android:maxWidth="@dimen/max_tv_header_width_222dp"
+            android:padding="@dimen/margin_10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="burgers with mushrooms and cheese" />
+
+        <ImageButton
+            android:id="@+id/ibToFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_main"
+            android:backgroundTint="@color/transparent_100"
+            android:padding="0dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_heart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Fragment Recipe"
-        android:gravity="center"
-        />
+        android:layout_marginHorizontal="@dimen/margin_main"
+        android:layout_marginTop="@dimen/margin_main"
+        android:layout_marginBottom="@dimen/main_space_8">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvIngredientsHeader"
+                style="@style/StyleTitle20purple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ingredients" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/StyleTitleGrey16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/portions" />
+
+                <TextView
+                    android:id="@+id/tvPortionsAmount"
+                    style="@style/StyleTitleGrey16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_6dp"
+                    tools:text="3" />
+
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/sbPortionsAmount"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_main"
+                android:paddingHorizontal="@dimen/margin_12dp"
+                android:paddingVertical="@dimen/margin_4dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="7"
+                tools:listitem="@layout/item_ingredient" />
+
+            <TextView
+                android:id="@+id/tvCookingMethodHeader"
+                style="@style/StyleTitle20purple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_main"
+                android:text="@string/cooking_method" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCookingMethods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_main"
+                android:paddingHorizontal="@dimen/margin_12dp"
+                android:paddingVertical="@dimen/margin_4dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="7"
+                tools:listitem="@layout/item_method" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

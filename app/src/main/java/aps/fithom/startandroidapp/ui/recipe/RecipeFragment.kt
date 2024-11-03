@@ -1,14 +1,20 @@
 package aps.fithom.startandroidapp.ui.recipe
 
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.data.local.Recipe
 import aps.fithom.startandroidapp.databinding.FragmentRecipeBinding
 import aps.fithom.startandroidapp.ui.recipes_list.RecipesListFragment
+import com.google.android.material.divider.MaterialDividerItemDecoration
+import java.io.InputStream
 
 class RecipeFragment : Fragment() {
 
@@ -34,8 +40,44 @@ class RecipeFragment : Fragment() {
                 arguments.getParcelable(RecipesListFragment.ARG_RECIPE, Recipe::class.java)
             }
         }
-        recipe?.let {
-            binding.tvRecipeName.text = it.title
+        initUi()
+        initRecycler()
+    }
+
+    private fun initRecycler(){
+        recipe?.let { recipe ->
+            val divider = MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+                dividerColor = requireContext().getColor(R.color.divider_color)
+                dividerThickness = resources.getDimensionPixelSize(R.dimen.divider_height)
+                isLastItemDecorated = false
+            }
+            val ingredientRVAdapter = IngredientListRVAdapter(recipe.ingredients)
+            with(binding.rvIngredients){
+                adapter = ingredientRVAdapter
+                addItemDecoration(divider)
+            }
+            val cookingMethodRVAdapter = CookingMethodListRVAdapter(recipe.method)
+            with(binding.rvCookingMethods){
+                adapter = cookingMethodRVAdapter
+                addItemDecoration(divider)
+            }
+        }
+
+
+    }
+
+    private fun initUi(){
+        recipe?.let { recipe ->
+            binding.tvRecipeName.text = recipe.title
+            try {
+                val inputStream: InputStream? =
+                    requireContext().assets?.open(recipe.imageUrl)
+                val drawable = Drawable.createFromStream(inputStream, null)
+                binding.ivRecipeImg.setImageDrawable(drawable)
+                binding.ivRecipeImg.contentDescription = "Img of ${recipe.title}"
+            } catch (e: Exception) {
+                Log.d("!!!", "Error loading img: ${e.message}")
+            }
         }
     }
 

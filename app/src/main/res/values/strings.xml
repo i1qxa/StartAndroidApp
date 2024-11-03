@@ -7,5 +7,8 @@
     <string name="category_image_content_description">%1$s сategory image</string>
     <string name="content_description_img_of_category">Img of %1$s category</string>
     <string name="content_description_recipe_img">Img of %1$s recipe</string>
+    <string name="ingredients">ingredients</string>
+    <string name="portions">Portions: </string>
+    <string name="cooking_method">cooking method</string>
 
 </resources>
