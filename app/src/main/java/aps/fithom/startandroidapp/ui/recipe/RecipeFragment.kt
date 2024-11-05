@@ -50,16 +50,12 @@ class RecipeFragment : Fragment() {
         recipe?.let { recipe ->
 
             val ingredientRVAdapter = IngredientListRVAdapter(recipe.ingredients)
-            ingredientRVAdapter.updateIngredients(binding.sbPortionsAmount.progress)
-            ingredientRVAdapter.notifyDataSetChanged()
-            binding.tvPortionsAmount.text = (binding.sbPortionsAmount.progress + 1).toString()
+            binding.tvPortionsAmount.text = (binding.sbPortionsAmount.progress).toString()
             binding.sbPortionsAmount.setOnSeekBarChangeListener(object :
                 SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    val progressValue = p1 + 1
-                    ingredientRVAdapter.updateIngredients(progressValue)
-                    ingredientRVAdapter.notifyDataSetChanged()
-                    binding.tvPortionsAmount.text = progressValue.toString()
+                    ingredientRVAdapter.updateIngredients(p1)
+                    binding.tvPortionsAmount.text = p1.toString()
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {

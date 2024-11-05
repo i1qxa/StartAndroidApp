@@ -1,11 +1,12 @@
 package aps.fithom.startandroidapp.ui.recipe
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import aps.fithom.startandroidapp.data.local.Ingredient
 import aps.fithom.startandroidapp.databinding.ItemIngredientBinding
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class IngredientListRVAdapter(private val ingredientList: List<Ingredient>) :
     RecyclerView.Adapter<IngredientListRVAdapter.IngredientListViewHolder>() {
@@ -14,6 +15,7 @@ class IngredientListRVAdapter(private val ingredientList: List<Ingredient>) :
 
     fun updateIngredients(progress: Int) {
         quantity = progress
+        this.notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientListViewHolder {
@@ -22,19 +24,17 @@ class IngredientListRVAdapter(private val ingredientList: List<Ingredient>) :
         return IngredientListViewHolder(binding)
     }
 
-    @SuppressLint("DefaultLocale")
     override fun onBindViewHolder(holder: IngredientListViewHolder, position: Int) {
         val item = ingredientList[position]
         item.quantity.toDoubleOrNull()?.let {
-            val quantityAsDouble = it * quantity
-            val quantityPortion = if (quantityAsDouble % 1 == 0.0) {
-                quantityAsDouble.toInt().toString()
-            } else {
-                String.format("%.1f", quantityAsDouble)
-            }
+            val totalQuantity = BigDecimal(it) * BigDecimal(quantity)
+            val displayQuantity = totalQuantity
+                .setScale(1, RoundingMode.HALF_UP)
+                .stripTrailingZeros()
+                .toPlainString()
             with(holder) {
                 tvIngredientName.text = item.description
-                tvIngredientAmount.text = "$quantityPortion ${item.unitOfMeasure}"
+                tvIngredientAmount.text = "$displayQuantity ${item.unitOfMeasure}"
             }
         }
 

@@ -97,8 +97,9 @@
                 android:id="@+id/sbPortionsAmount"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30dp"
-                android:max="4"
-                android:progress="2" />
+                android:max="5"
+                android:min="1"
+                android:progress="1" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredients"
