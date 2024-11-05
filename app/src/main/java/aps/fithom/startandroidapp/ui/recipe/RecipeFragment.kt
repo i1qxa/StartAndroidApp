@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import aps.fithom.startandroidapp.R
@@ -45,13 +46,35 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initRecycler(){
+
         recipe?.let { recipe ->
+
+            val ingredientRVAdapter = IngredientListRVAdapter(recipe.ingredients)
+            ingredientRVAdapter.updateIngredients(binding.sbPortionsAmount.progress)
+            ingredientRVAdapter.notifyDataSetChanged()
+            binding.sbPortionsAmount.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    val progressValue = if (p1==0) 1 else p1
+                    ingredientRVAdapter.updateIngredients(progressValue)
+                    ingredientRVAdapter.notifyDataSetChanged()
+                    binding.tvPortionsAmount.text = progressValue.toString()
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+            })
+
             val divider = MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
                 dividerColor = requireContext().getColor(R.color.divider_color)
                 dividerThickness = resources.getDimensionPixelSize(R.dimen.divider_height)
                 isLastItemDecorated = false
             }
-            val ingredientRVAdapter = IngredientListRVAdapter(recipe.ingredients)
+
             with(binding.rvIngredients){
                 adapter = ingredientRVAdapter
                 addItemDecoration(divider)
