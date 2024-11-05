@@ -45,16 +45,18 @@ class RecipeFragment : Fragment() {
         initRecycler()
     }
 
-    private fun initRecycler(){
+    private fun initRecycler() {
 
         recipe?.let { recipe ->
 
             val ingredientRVAdapter = IngredientListRVAdapter(recipe.ingredients)
             ingredientRVAdapter.updateIngredients(binding.sbPortionsAmount.progress)
             ingredientRVAdapter.notifyDataSetChanged()
-            binding.sbPortionsAmount.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            binding.tvPortionsAmount.text = (binding.sbPortionsAmount.progress + 1).toString()
+            binding.sbPortionsAmount.setOnSeekBarChangeListener(object :
+                SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    val progressValue = if (p1==0) 1 else p1
+                    val progressValue = p1 + 1
                     ingredientRVAdapter.updateIngredients(progressValue)
                     ingredientRVAdapter.notifyDataSetChanged()
                     binding.tvPortionsAmount.text = progressValue.toString()
@@ -69,18 +71,21 @@ class RecipeFragment : Fragment() {
                 }
             })
 
-            val divider = MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+            val divider = MaterialDividerItemDecoration(
+                requireContext(),
+                LinearLayoutManager.VERTICAL
+            ).apply {
                 dividerColor = requireContext().getColor(R.color.divider_color)
                 dividerThickness = resources.getDimensionPixelSize(R.dimen.divider_height)
                 isLastItemDecorated = false
             }
 
-            with(binding.rvIngredients){
+            with(binding.rvIngredients) {
                 adapter = ingredientRVAdapter
                 addItemDecoration(divider)
             }
             val cookingMethodRVAdapter = CookingMethodListRVAdapter(recipe.method)
-            with(binding.rvCookingMethods){
+            with(binding.rvCookingMethods) {
                 adapter = cookingMethodRVAdapter
                 addItemDecoration(divider)
             }
@@ -89,7 +94,7 @@ class RecipeFragment : Fragment() {
 
     }
 
-    private fun initUi(){
+    private fun initUi() {
         recipe?.let { recipe ->
             binding.tvRecipeName.text = recipe.title
             try {
