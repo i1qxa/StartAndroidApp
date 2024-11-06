@@ -5,9 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import aps.fithom.startandroidapp.data.local.Ingredient
 import aps.fithom.startandroidapp.databinding.ItemIngredientBinding
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class IngredientListRVAdapter(private val ingredientList: List<Ingredient>) :
     RecyclerView.Adapter<IngredientListRVAdapter.IngredientListViewHolder>() {
+
+    private var quantity = 1
+
+    fun updateIngredients(progress: Int) {
+        quantity = progress
+        this.notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientListViewHolder {
         val binding =
@@ -17,10 +26,18 @@ class IngredientListRVAdapter(private val ingredientList: List<Ingredient>) :
 
     override fun onBindViewHolder(holder: IngredientListViewHolder, position: Int) {
         val item = ingredientList[position]
-        with(holder) {
-            tvIngredientName.text = item.description
-            tvIngredientAmount.text = "${item.quantity} ${item.unitOfMeasure}"
+        item.quantity.toDoubleOrNull()?.let {
+            val totalQuantity = BigDecimal(it) * BigDecimal(quantity)
+            val displayQuantity = totalQuantity
+                .setScale(1, RoundingMode.HALF_UP)
+                .stripTrailingZeros()
+                .toPlainString()
+            with(holder) {
+                tvIngredientName.text = item.description
+                tvIngredientAmount.text = "$displayQuantity ${item.unitOfMeasure}"
+            }
         }
+
     }
 
     override fun getItemCount(): Int {
