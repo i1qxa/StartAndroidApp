@@ -53,9 +53,9 @@ class RecipeFragment : Fragment() {
             binding.tvPortionsAmount.text = (binding.sbPortionsAmount.progress).toString()
             binding.sbPortionsAmount.setOnSeekBarChangeListener(object :
                 SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    ingredientRVAdapter.updateIngredients(p1)
-                    binding.tvPortionsAmount.text = p1.toString()
+                override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+                    ingredientRVAdapter.updateIngredients(progress)
+                    binding.tvPortionsAmount.text = progress.toString()
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <solid
+        android:color="@color/color_btn_category_background"
+        />
+    <size
+        android:height="@dimen/_30dp"
+        android:width="@dimen/main_space_8"
+        />
+    <corners
+        android:radius="@dimen/radius_4dp"
+        />
+
+</shape>
