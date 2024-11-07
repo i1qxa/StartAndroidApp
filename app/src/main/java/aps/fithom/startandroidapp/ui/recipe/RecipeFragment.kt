@@ -102,6 +102,12 @@ class RecipeFragment : Fragment() {
             } catch (e: Exception) {
                 Log.d("!!!", "Error loading img: ${e.message}")
             }
+            with(binding.ibToFavorite) {
+                setImageResource(R.drawable.ic_heart_empty)
+                setOnClickListener {
+                    setImageResource(R.drawable.ic_heart)
+                }
+            }
         }
     }
 
