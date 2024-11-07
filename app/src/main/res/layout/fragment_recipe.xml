@@ -99,7 +99,9 @@
                 android:layout_height="@dimen/_30dp"
                 android:max="5"
                 android:min="1"
-                android:progress="1" />
+                android:progress="3"
+                style="@style/StyleSeekBar"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredients"
