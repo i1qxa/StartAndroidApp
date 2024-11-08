@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@android:color/darker_gray"
-    android:radius="20dp"> <!-- Optional: Customize the ripple radius -->
-    <item android:drawable="@drawable/ic_heart" />
-</ripple>
