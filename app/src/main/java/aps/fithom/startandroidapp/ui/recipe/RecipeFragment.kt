@@ -1,5 +1,6 @@
 package aps.fithom.startandroidapp.ui.recipe
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -17,8 +18,6 @@ import aps.fithom.startandroidapp.ui.recipes_list.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
 
-private const val IS_IN_FAVORITE = "is_in_favorite"
-
 class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
@@ -26,6 +25,13 @@ class RecipeFragment : Fragment() {
         get() = _binding ?: throw IllegalStateException("FragmentRecipeBinding must not be null")
     private var recipe: Recipe? = null
     private var isInFavorite = false
+    private val prefs by lazy {
+        requireContext().getSharedPreferences(
+            PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
+    }
+    private var favoriteSet = hashSetOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +50,18 @@ class RecipeFragment : Fragment() {
                 arguments.getParcelable(RecipesListFragment.ARG_RECIPE, Recipe::class.java)
             }
         }
-        savedInstanceState?.getBoolean(IS_IN_FAVORITE)?.let {
-            isInFavorite = it
-            setupFavoriteIcon()
+        if (savedInstanceState?.getStringArrayList(FAVORITE_SET) == null) {
+            getFavorites()
+        } else {
+            savedInstanceState.getStringArrayList(FAVORITE_SET)?.let {
+                favoriteSet.apply {
+                    clear()
+                    addAll(it)
+                }
+                setupFavoriteIcon()
+            }
         }
+
         initUi()
         initRecycler()
     }
@@ -66,11 +80,9 @@ class RecipeFragment : Fragment() {
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {
-
                 }
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {
-
                 }
             })
 
@@ -93,8 +105,6 @@ class RecipeFragment : Fragment() {
                 addItemDecoration(divider)
             }
         }
-
-
     }
 
     private fun initUi() {
@@ -112,25 +122,58 @@ class RecipeFragment : Fragment() {
             with(binding.ibToFavorite) {
                 setupFavoriteIcon()
                 setOnClickListener {
-                    isInFavorite = !isInFavorite
-                    setupFavoriteIcon()
+                    recipe.id.toString().let { recipeId ->
+                        if (favoriteSet.contains(recipeId)) {
+                            favoriteSet.remove(recipeId)
+                        } else {
+                            favoriteSet.add(recipeId)
+                        }
+                        saveFavorites()
+                        setupFavoriteIcon()
+                    }
                 }
             }
         }
     }
 
     private fun setupFavoriteIcon() {
-        val imgResource = if (isInFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty
-        binding.ibToFavorite.setImageResource(imgResource)
+        recipe?.let { recipe ->
+            val imgResource = if (favoriteSet.contains(recipe.id.toString())) {
+                R.drawable.ic_heart
+            } else {
+                R.drawable.ic_heart_empty
+            }
+            binding.ibToFavorite.setImageResource(imgResource)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(IS_IN_FAVORITE, isInFavorite)
+        outState.putStringArrayList(FAVORITE_SET, ArrayList(favoriteSet))
+    }
+
+    private fun getFavorites() {
+        prefs.getStringSet(PREFS_FAVORITE_SET, null)?.let { prefsFavoriteSet ->
+            favoriteSet.apply {
+                clear()
+                addAll(prefsFavoriteSet)
+            }
+        }
+    }
+
+    private fun saveFavorites() {
+        prefs.edit().putStringSet(PREFS_FAVORITE_SET, favoriteSet).apply()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
+
+    companion object {
+        private const val FAVORITE_SET = "favorite_set"
+        const val PREFS_NAME = "start_android_app_prefs"
+        const val PREFS_FAVORITE_SET = "favorite_set"
+    }
+
 }
