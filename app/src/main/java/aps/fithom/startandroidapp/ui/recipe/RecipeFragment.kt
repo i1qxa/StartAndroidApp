@@ -17,12 +17,15 @@ import aps.fithom.startandroidapp.ui.recipes_list.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
 
+private const val IS_IN_FAVORITE = "is_in_favorite"
+
 class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
     private val binding: FragmentRecipeBinding
         get() = _binding ?: throw IllegalStateException("FragmentRecipeBinding must not be null")
     private var recipe: Recipe? = null
+    private var isInFavorite = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +43,10 @@ class RecipeFragment : Fragment() {
             } else {
                 arguments.getParcelable(RecipesListFragment.ARG_RECIPE, Recipe::class.java)
             }
+        }
+        savedInstanceState?.getBoolean(IS_IN_FAVORITE)?.let {
+            isInFavorite = it
+            setupFavoriteIcon()
         }
         initUi()
         initRecycler()
@@ -102,7 +109,24 @@ class RecipeFragment : Fragment() {
             } catch (e: Exception) {
                 Log.d("!!!", "Error loading img: ${e.message}")
             }
+            with(binding.ibToFavorite) {
+                setupFavoriteIcon()
+                setOnClickListener {
+                    isInFavorite = !isInFavorite
+                    setupFavoriteIcon()
+                }
+            }
         }
+    }
+
+    private fun setupFavoriteIcon() {
+        val imgResource = if (isInFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty
+        binding.ibToFavorite.setImageResource(imgResource)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(IS_IN_FAVORITE, isInFavorite)
     }
 
     override fun onDestroy() {

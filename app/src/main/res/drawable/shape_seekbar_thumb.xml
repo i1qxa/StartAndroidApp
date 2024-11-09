@@ -9,7 +9,7 @@
         android:width="@dimen/main_space_8"
         />
     <corners
-        android:radius="@dimen/radius_4dp"
+        android:radius="@dimen/margin_4dp"
         />
 
 </shape>
