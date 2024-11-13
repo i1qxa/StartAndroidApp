@@ -31,7 +31,6 @@ class RecipeFragment : Fragment() {
             Context.MODE_PRIVATE
         )
     }
-    private val favoriteSetLD = MutableLiveData<HashSet<String>?>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -114,17 +113,13 @@ class RecipeFragment : Fragment() {
                     }
                 }
             }
-            getFavoritesFromPrefs()?.let { favoriteSet ->
-                favoriteSetLD.postValue(favoriteSet)
-            }
-            favoriteSetLD.observe(viewLifecycleOwner) { favoriteSet ->
-                setupFavoriteIcon(favoriteSet)
-            }
+            updateFavoriteIcon()
         }
     }
 
-    private fun setupFavoriteIcon(favoriteSet: HashSet<String>?) {
+    private fun updateFavoriteIcon() {
         recipe?.let { recipe ->
+            val favoriteSet = getFavoritesFromPrefs()
             val imgResource = if (favoriteSet?.contains(recipe.id.toString()) == true) {
                 R.drawable.ic_heart
             } else {
@@ -149,7 +144,7 @@ class RecipeFragment : Fragment() {
             updatedSetOfFavorite.add(recipeId)
         }
         prefs.edit().putStringSet(PREFS_FAVORITE_SET, updatedSetOfFavorite).apply()
-        favoriteSetLD.postValue(updatedSetOfFavorite)
+        updateFavoriteIcon()
     }
 
     override fun onDestroy() {
