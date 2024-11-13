@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.data.local.Recipe
