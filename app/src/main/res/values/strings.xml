@@ -11,5 +11,8 @@
     <string name="portions">Portions: </string>
     <string name="cooking_method">cooking method</string>
     <string name="add_to_favorite">Add to favorite</string>
+    <string name="favorites_image">Favorites image</string>
+    <string name="favorites">favorites</string>
+    <string name="favorites_is_empty">You haven\'t added any recipes to your favorites yet</string>
 
 </resources>

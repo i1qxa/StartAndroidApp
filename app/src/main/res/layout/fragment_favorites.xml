@@ -1,15 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_main"
-    tools:context=".ui.favorites.FavoritesFragment">
+    android:orientation="vertical"
+    tools:context=".ui.recipes_list.RecipesListFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clFavoritesHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_header_height_224dp">
+
+        <ImageView
+            android:id="@+id/ivFavoritesImg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/favorites_image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bcg_favorites"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFavoritesHeader"
+            style="@style/StyleTitle20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_main"
+            android:background="@drawable/shape_rounded_tv"
+            android:padding="@dimen/margin_10dp"
+            android:text="@string/favorites"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecipesFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/margin_main"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_recipe" />
 
     <TextView
+        android:id="@+id/tvFavoritesIsEmpty"
+        style="@style/StyleTitle20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Fragment Favorites" />
+        android:layout_margin="@dimen/margin_main"
+        android:background="@drawable/shape_rounded_tv"
+        android:padding="@dimen/margin_10dp"
+        android:text="@string/favorites_is_empty"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</FrameLayout>
+</LinearLayout>
