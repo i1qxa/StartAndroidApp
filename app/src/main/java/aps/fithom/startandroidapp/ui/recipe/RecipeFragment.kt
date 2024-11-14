@@ -1,5 +1,6 @@
 package aps.fithom.startandroidapp.ui.recipe
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -17,15 +18,18 @@ import aps.fithom.startandroidapp.ui.recipes_list.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
 
-private const val IS_IN_FAVORITE = "is_in_favorite"
-
 class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
     private val binding: FragmentRecipeBinding
         get() = _binding ?: throw IllegalStateException("FragmentRecipeBinding must not be null")
     private var recipe: Recipe? = null
-    private var isInFavorite = false
+    private val prefs by lazy {
+        requireContext().getSharedPreferences(
+            PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +47,6 @@ class RecipeFragment : Fragment() {
             } else {
                 arguments.getParcelable(RecipesListFragment.ARG_RECIPE, Recipe::class.java)
             }
-        }
-        savedInstanceState?.getBoolean(IS_IN_FAVORITE)?.let {
-            isInFavorite = it
-            setupFavoriteIcon()
         }
         initUi()
         initRecycler()
@@ -66,11 +66,9 @@ class RecipeFragment : Fragment() {
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {
-
                 }
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {
-
                 }
             })
 
@@ -93,8 +91,6 @@ class RecipeFragment : Fragment() {
                 addItemDecoration(divider)
             }
         }
-
-
     }
 
     private fun initUi() {
@@ -110,27 +106,54 @@ class RecipeFragment : Fragment() {
                 Log.d("!!!", "Error loading img: ${e.message}")
             }
             with(binding.ibToFavorite) {
-                setupFavoriteIcon()
                 setOnClickListener {
-                    isInFavorite = !isInFavorite
-                    setupFavoriteIcon()
+                    recipe.id.toString().let { recipeId ->
+                        updateFavorites(recipeId)
+                    }
                 }
             }
+            updateFavoriteIcon()
         }
     }
 
-    private fun setupFavoriteIcon() {
-        val imgResource = if (isInFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty
-        binding.ibToFavorite.setImageResource(imgResource)
+    private fun updateFavoriteIcon() {
+        recipe?.let { recipe ->
+            val favoriteSet = getFavoritesFromPrefs()
+            val imgResource = if (favoriteSet?.contains(recipe.id.toString()) == true) {
+                R.drawable.ic_heart
+            } else {
+                R.drawable.ic_heart_empty
+            }
+            binding.ibToFavorite.setImageResource(imgResource)
+        }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(IS_IN_FAVORITE, isInFavorite)
+    private fun getFavoritesFromPrefs(): HashSet<String>? {
+        return prefs.getStringSet(PREFS_FAVORITE_SET, null)?.toHashSet()
+    }
+
+    private fun updateFavorites(recipeId: String) {
+        val updatedSetOfFavorite = HashSet<String>()
+        getFavoritesFromPrefs()?.let { savedSetOfFavorite ->
+            updatedSetOfFavorite.addAll(savedSetOfFavorite)
+        }
+        if (updatedSetOfFavorite.contains(recipeId)) {
+            updatedSetOfFavorite.remove(recipeId)
+        } else {
+            updatedSetOfFavorite.add(recipeId)
+        }
+        prefs.edit().putStringSet(PREFS_FAVORITE_SET, updatedSetOfFavorite).apply()
+        updateFavoriteIcon()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
+
+    companion object {
+        const val PREFS_NAME = "start_android_app_prefs"
+        const val PREFS_FAVORITE_SET = "favorite_set"
+    }
+
 }
