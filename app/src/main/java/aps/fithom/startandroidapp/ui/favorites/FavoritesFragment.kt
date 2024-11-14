@@ -48,7 +48,7 @@ class FavoritesFragment : Fragment() {
         val recipeList = getFavoritesFromPrefs()?.let { setIds ->
             STUB.getRecipesByIds(setIds)
         }
-        if (recipeList == null) {
+        if (recipeList.isNullOrEmpty()) {
             binding.tvFavoritesIsEmpty.visibility = View.VISIBLE
         } else {
             val recycler = binding.rvRecipesFavorite
