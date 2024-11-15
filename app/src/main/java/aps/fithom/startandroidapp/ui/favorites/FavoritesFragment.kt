@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import aps.fithom.startandroidapp.R
+import aps.fithom.startandroidapp.data.local.Recipe
 import aps.fithom.startandroidapp.data.local.STUB
 import aps.fithom.startandroidapp.databinding.FragmentFavoritesBinding
 import aps.fithom.startandroidapp.ui.recipe.RecipeFragment
@@ -23,6 +24,8 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("FragmentFavoritesBinding must not be null")
+
+    private val prefs by lazy { requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +41,6 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun getFavoritesFromPrefs(): Set<Int>? {
-        val prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return prefs.getStringSet(PREFS_FAVORITE_SET, null)?.map {
             it.toInt()
         }?.toSet()
@@ -57,10 +59,7 @@ class FavoritesFragment : Fragment() {
                 RecipeListRVAdapter.OnRecipeItemClickListener {
                 override fun onItemClick(recipeId: Int) {
                     STUB.getRecipeById(recipeId)?.let { recipe ->
-                        val bundle = bundleOf(
-                            ARG_RECIPE to recipe
-                        )
-                        openRecipeById(bundle)
+                        openRecipeByBundle(recipe)
                     }
                 }
             })
@@ -69,10 +68,14 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun openRecipeById(bundle: Bundle) {
+    private fun openRecipeByBundle(recipe:Recipe) {
+        val bundle = bundleOf(
+            ARG_RECIPE to recipe
+        )
         parentFragmentManager.commit {
             setReorderingAllowed(true)
             replace<RecipeFragment>(R.id.mainContainer, args = bundle)
+            addToBackStack(null)
         }
     }
 
