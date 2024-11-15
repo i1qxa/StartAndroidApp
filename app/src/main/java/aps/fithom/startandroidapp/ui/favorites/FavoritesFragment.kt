@@ -25,7 +25,12 @@ class FavoritesFragment : Fragment() {
     private val binding
         get() = _binding ?: throw IllegalStateException("FragmentFavoritesBinding must not be null")
 
-    private val prefs by lazy { requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE) }
+    private val prefs by lazy {
+        requireContext().getSharedPreferences(
+            PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +73,7 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun openRecipeByBundle(recipe:Recipe) {
+    private fun openRecipeByBundle(recipe: Recipe) {
         val bundle = bundleOf(
             ARG_RECIPE to recipe
         )
