@@ -64,7 +64,7 @@ class FavoritesFragment : Fragment() {
                 RecipeListRVAdapter.OnRecipeItemClickListener {
                 override fun onItemClick(recipeId: Int) {
                     STUB.getRecipeById(recipeId)?.let { recipe ->
-                        openRecipeByBundle(recipe)
+                        openRecipeByEntity(recipe)
                     }
                 }
             })
@@ -73,7 +73,7 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun openRecipeByBundle(recipe: Recipe) {
+    private fun openRecipeByEntity(recipe: Recipe) {
         val bundle = bundleOf(
             ARG_RECIPE to recipe
         )
