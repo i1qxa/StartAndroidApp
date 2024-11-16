@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import aps.fithom.startandroidapp.R
-import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.databinding.FragmentRecipeBinding
+import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
@@ -50,7 +50,7 @@ class RecipeFragment : Fragment() {
                 arguments.getParcelable(RecipesListFragment.ARG_RECIPE, Recipe::class.java)
             }
         }
-        viewModel.recipeStateLD.observe(viewLifecycleOwner){ recipeState ->
+        viewModel.recipeStateLD.observe(viewLifecycleOwner) { recipeState ->
             Log.i("!!!", "isFavorite: ${recipeState.isInFavorite}")
         }
         initUi()

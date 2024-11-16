@@ -9,7 +9,7 @@ import aps.fithom.startandroidapp.domain.models.Recipe
 class RecipeViewModel : ViewModel() {
 
     private val _recipeStateLD = MutableLiveData<RecipeState>()
-    val recipeStateLD:LiveData<RecipeState>
+    val recipeStateLD: LiveData<RecipeState>
         get() = _recipeStateLD
 
     init {
@@ -21,7 +21,7 @@ class RecipeViewModel : ViewModel() {
     data class RecipeState(
         val recipe: Recipe? = null,
         val isInFavorite: Boolean = false,
-        val portionAmount:Int = 1,
+        val portionAmount: Int = 1,
     )
 
 }
