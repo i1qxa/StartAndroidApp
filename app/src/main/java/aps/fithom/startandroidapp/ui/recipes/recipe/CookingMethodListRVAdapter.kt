@@ -1,4 +1,4 @@
-package aps.fithom.startandroidapp.ui.recipe
+package aps.fithom.startandroidapp.ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

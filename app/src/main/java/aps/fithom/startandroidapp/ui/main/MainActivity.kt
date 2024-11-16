@@ -12,7 +12,7 @@ import androidx.fragment.app.replace
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.ActivityMainBinding
 import aps.fithom.startandroidapp.ui.category_list.CategoriesListFragment
-import aps.fithom.startandroidapp.ui.favorites.FavoritesFragment
+import aps.fithom.startandroidapp.ui.recipes.favorites.FavoritesFragment
 
 class MainActivity : AppCompatActivity() {
 

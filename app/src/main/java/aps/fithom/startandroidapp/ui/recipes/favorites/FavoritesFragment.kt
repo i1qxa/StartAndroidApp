@@ -1,4 +1,4 @@
-package aps.fithom.startandroidapp.ui.favorites
+package aps.fithom.startandroidapp.ui.recipes.favorites
 
 import android.content.Context
 import android.os.Bundle
@@ -13,11 +13,11 @@ import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.data.local.Recipe
 import aps.fithom.startandroidapp.data.local.STUB
 import aps.fithom.startandroidapp.databinding.FragmentFavoritesBinding
-import aps.fithom.startandroidapp.ui.recipe.RecipeFragment
-import aps.fithom.startandroidapp.ui.recipe.RecipeFragment.Companion.PREFS_FAVORITE_SET
-import aps.fithom.startandroidapp.ui.recipe.RecipeFragment.Companion.PREFS_NAME
-import aps.fithom.startandroidapp.ui.recipes_list.RecipeListRVAdapter
-import aps.fithom.startandroidapp.ui.recipes_list.RecipesListFragment.Companion.ARG_RECIPE
+import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment
+import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_FAVORITE_SET
+import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_NAME
+import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipeListRVAdapter
+import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment.Companion.ARG_RECIPE
 
 class FavoritesFragment : Fragment() {
 
@@ -64,7 +64,7 @@ class FavoritesFragment : Fragment() {
                 RecipeListRVAdapter.OnRecipeItemClickListener {
                 override fun onItemClick(recipeId: Int) {
                     STUB.getRecipeById(recipeId)?.let { recipe ->
-                        openRecipeByBundle(recipe)
+                        openRecipeByEntity(recipe)
                     }
                 }
             })
@@ -73,7 +73,7 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun openRecipeByBundle(recipe: Recipe) {
+    private fun openRecipeByEntity(recipe: Recipe) {
         val bundle = bundleOf(
             ARG_RECIPE to recipe
         )

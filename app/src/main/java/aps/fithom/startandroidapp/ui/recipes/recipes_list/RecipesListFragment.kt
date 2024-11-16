@@ -1,4 +1,4 @@
-package aps.fithom.startandroidapp.ui.recipes_list
+package aps.fithom.startandroidapp.ui.recipes.recipes_list
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -16,7 +16,7 @@ import aps.fithom.startandroidapp.databinding.FragmentRecipesListBinding
 import aps.fithom.startandroidapp.ui.category_list.ARG_CATEGORY_ID
 import aps.fithom.startandroidapp.ui.category_list.ARG_CATEGORY_IMAGE_URL
 import aps.fithom.startandroidapp.ui.category_list.ARG_CATEGORY_NAME
-import aps.fithom.startandroidapp.ui.recipe.RecipeFragment
+import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment
 import java.io.InputStream
 
 class RecipesListFragment : Fragment() {
