@@ -1,4 +1,4 @@
-package aps.fithom.startandroidapp.data.local
+package aps.fithom.startandroidapp.domain.models
 
 import kotlinx.serialization.Serializable
 

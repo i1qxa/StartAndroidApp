@@ -1,5 +1,8 @@
 package aps.fithom.startandroidapp.data.local
 
+import aps.fithom.startandroidapp.domain.models.Category
+import aps.fithom.startandroidapp.domain.models.Ingredient
+import aps.fithom.startandroidapp.domain.models.Recipe
 import kotlinx.serialization.json.Json
 
 object STUB {

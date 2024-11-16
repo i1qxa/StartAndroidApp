@@ -3,11 +3,10 @@ package aps.fithom.startandroidapp.ui.category_list
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import aps.fithom.startandroidapp.R
-import aps.fithom.startandroidapp.data.local.Category
+import aps.fithom.startandroidapp.domain.models.Category
 import aps.fithom.startandroidapp.databinding.ItemCategoryBinding
 import java.io.InputStream
 
