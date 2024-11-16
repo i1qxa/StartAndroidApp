@@ -1,4 +1,4 @@
-package aps.fithom.startandroidapp.ui.recipe
+package aps.fithom.startandroidapp.ui.recipes.recipe
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.data.local.Recipe
 import aps.fithom.startandroidapp.databinding.FragmentRecipeBinding
-import aps.fithom.startandroidapp.ui.recipes_list.RecipesListFragment
+import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.recipes_list.RecipesListFragment"
+    tools:context=".ui.recipes.recipes_list.RecipesListFragment"
     android:background="@color/background_main"
     android:orientation="vertical">
 

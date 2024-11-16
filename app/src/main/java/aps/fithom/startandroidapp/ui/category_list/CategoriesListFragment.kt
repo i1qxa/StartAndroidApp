@@ -11,7 +11,7 @@ import androidx.fragment.app.commit
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.data.local.STUB
 import aps.fithom.startandroidapp.databinding.FragmentCategoriesListBinding
-import aps.fithom.startandroidapp.ui.recipes_list.RecipesListFragment
+import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment
 
 const val ARG_CATEGORY_ID = "category_id"
 const val ARG_CATEGORY_NAME = "category_name"
