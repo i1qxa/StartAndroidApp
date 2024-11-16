@@ -280,4 +280,8 @@ object STUB {
         }
     }
 
+    fun getRecipesByIds(recipesId: Set<Int>): List<Recipe> {
+        return burgerRecipes.filter { recipe -> recipesId.contains(recipe.id) }
+    }
+
 }
