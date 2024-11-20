@@ -17,7 +17,7 @@ import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_FAVORITE_SET
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_NAME
 import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipeListRVAdapter
-import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment.Companion.ARG_RECIPE
+import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment.Companion.ARG_RECIPE_ID
 
 class FavoritesFragment : Fragment() {
 
@@ -75,7 +75,7 @@ class FavoritesFragment : Fragment() {
 
     private fun openRecipeByEntity(recipe: Recipe) {
         val bundle = bundleOf(
-            ARG_RECIPE to recipe
+            ARG_RECIPE_ID to recipe
         )
         parentFragmentManager.commit {
             setReorderingAllowed(true)

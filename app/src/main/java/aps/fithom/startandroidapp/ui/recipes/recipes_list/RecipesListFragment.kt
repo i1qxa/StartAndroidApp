@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -71,10 +70,10 @@ class RecipesListFragment : Fragment() {
                 RecipeListRVAdapter.OnRecipeItemClickListener {
                 override fun onItemClick(recipeId: Int) {
                     STUB.getRecipeById(recipeId)?.let { recipe ->
-                        val bundle = bundleOf(
-                            ARG_RECIPE to recipe
-                        )
-                        openRecipeById(bundle)
+                        val bundle = Bundle().apply {
+                            putInt(ARG_RECIPE_ID, recipeId)
+                        }
+                        openRecipeByBundle(bundle)
                     }
                 }
             })
@@ -82,7 +81,7 @@ class RecipesListFragment : Fragment() {
         }
     }
 
-    private fun openRecipeById(bundle: Bundle) {
+    private fun openRecipeByBundle(bundle: Bundle) {
         parentFragmentManager.commit {
             setReorderingAllowed(true)
             replace<RecipeFragment>(R.id.mainContainer, args = bundle)
@@ -96,7 +95,7 @@ class RecipesListFragment : Fragment() {
     }
 
     companion object {
-        const val ARG_RECIPE = "arg_recipe"
+        const val ARG_RECIPE_ID = "arg_recipe_id"
     }
 
 }
