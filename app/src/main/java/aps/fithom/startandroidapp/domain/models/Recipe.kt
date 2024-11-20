@@ -1,4 +1,4 @@
-package aps.fithom.startandroidapp.data.local
+package aps.fithom.startandroidapp.domain.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

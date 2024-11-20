@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import aps.fithom.startandroidapp.R
-import aps.fithom.startandroidapp.data.local.Recipe
+import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.databinding.ItemRecipeBinding
 import java.io.InputStream
 

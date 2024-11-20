@@ -3,7 +3,7 @@ package aps.fithom.startandroidapp.ui.recipes.recipe
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import aps.fithom.startandroidapp.data.local.Ingredient
+import aps.fithom.startandroidapp.domain.models.Ingredient
 import aps.fithom.startandroidapp.databinding.ItemIngredientBinding
 import java.math.BigDecimal
 import java.math.RoundingMode

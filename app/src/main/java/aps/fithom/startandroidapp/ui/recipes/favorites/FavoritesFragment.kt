@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import aps.fithom.startandroidapp.R
-import aps.fithom.startandroidapp.data.local.Recipe
+import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.data.local.STUB
 import aps.fithom.startandroidapp.databinding.FragmentFavoritesBinding
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment
