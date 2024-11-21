@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.FragmentRecipeBinding
-import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import java.io.InputStream
@@ -24,6 +23,8 @@ class RecipeFragment : Fragment() {
         get() = _binding ?: throw IllegalStateException("FragmentRecipeBinding must not be null")
 
     private val viewModel by viewModels<RecipeViewModel>()
+    private var ingredientRVAdapter: IngredientListRVAdapter? = null
+    private var cookingMethodRVAdapter: CookingMethodListRVAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,16 +42,16 @@ class RecipeFragment : Fragment() {
             }
         }
         initUi()
+        initRecycler()
     }
 
-    private fun initRecycler(recipe: Recipe) {
+    private fun initRecycler() {
 
-        val ingredientRVAdapter = IngredientListRVAdapter(recipe.ingredients)
         binding.tvPortionsAmount.text = (binding.sbPortionsAmount.progress).toString()
         binding.sbPortionsAmount.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
-                ingredientRVAdapter.updateIngredients(progress)
+                ingredientRVAdapter?.updateIngredients(progress)
                 binding.tvPortionsAmount.text = progress.toString()
             }
 
@@ -69,16 +70,8 @@ class RecipeFragment : Fragment() {
             dividerThickness = resources.getDimensionPixelSize(R.dimen.divider_height)
             isLastItemDecorated = false
         }
-
-        with(binding.rvIngredients) {
-            adapter = ingredientRVAdapter
-            addItemDecoration(divider)
-        }
-        val cookingMethodRVAdapter = CookingMethodListRVAdapter(recipe.method)
-        with(binding.rvCookingMethods) {
-            adapter = cookingMethodRVAdapter
-            addItemDecoration(divider)
-        }
+        binding.rvIngredients.addItemDecoration(divider)
+        binding.rvCookingMethods.addItemDecoration(divider)
     }
 
     private fun initUi() {
@@ -99,7 +92,10 @@ class RecipeFragment : Fragment() {
                         viewModel.onFavoritesClicked()
                     }
                 }
-                initRecycler(recipe)
+                ingredientRVAdapter = IngredientListRVAdapter(recipe.ingredients)
+                binding.rvIngredients.adapter = ingredientRVAdapter
+                cookingMethodRVAdapter = CookingMethodListRVAdapter(recipe.method)
+                binding.rvCookingMethods.adapter = cookingMethodRVAdapter
             }
             updateFavoriteIcon(recipeState.isInFavorite)
         }

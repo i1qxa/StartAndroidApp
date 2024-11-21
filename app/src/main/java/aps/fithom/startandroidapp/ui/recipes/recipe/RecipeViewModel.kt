@@ -33,7 +33,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun loadRecipe(recipeId: Int) {
         //TODO load from network
         val recipe = STUB.getRecipeById(recipeId)
-        val isInFavorite = getFavoritesFromPrefs()?.contains(recipeId.toString()) ?: false
+        val isInFavorite = getFavoritesFromPrefs()?.contains(recipeId.toString()) == true
         _recipeStateLD.value =
             _recipeStateLD.value?.copy(recipe = recipe, isInFavorite = isInFavorite)
 
@@ -49,10 +49,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun onFavoritesClicked() {
         _recipeStateLD.value?.recipe?.id?.toString()?.let { recipeId ->
-            val updatedSetOfFavorite = HashSet<String>()
-            getFavoritesFromPrefs()?.let { savedSetOfFavorite ->
-                updatedSetOfFavorite.addAll(savedSetOfFavorite)
-            }
+            val updatedSetOfFavorite = getFavoritesFromPrefs() ?: HashSet()
             if (updatedSetOfFavorite.contains(recipeId)) {
                 updatedSetOfFavorite.remove(recipeId)
                 _recipeStateLD.value = _recipeStateLD.value?.copy(isInFavorite = false)

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import aps.fithom.startandroidapp.R
-import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.data.local.STUB
 import aps.fithom.startandroidapp.databinding.FragmentFavoritesBinding
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment
@@ -63,9 +62,7 @@ class FavoritesFragment : Fragment() {
             rvAdapter.setOnRecipeItemClickListener(object :
                 RecipeListRVAdapter.OnRecipeItemClickListener {
                 override fun onItemClick(recipeId: Int) {
-                    STUB.getRecipeById(recipeId)?.let { recipe ->
-                        openRecipeByEntity(recipe)
-                    }
+                    openRecipeById(recipeId)
                 }
             })
             recycler.adapter = rvAdapter
@@ -73,10 +70,9 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun openRecipeByEntity(recipe: Recipe) {
-        val bundle = bundleOf(
-            ARG_RECIPE_ID to recipe
-        )
+    private fun openRecipeById(recipeId: Int) {
+        val bundle = bundleOf()
+        bundle.putInt(ARG_RECIPE_ID, recipeId)
         parentFragmentManager.commit {
             setReorderingAllowed(true)
             replace<RecipeFragment>(R.id.mainContainer, args = bundle)
