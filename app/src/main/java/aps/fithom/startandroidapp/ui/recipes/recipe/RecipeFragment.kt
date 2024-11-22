@@ -1,8 +1,6 @@
 package aps.fithom.startandroidapp.ui.recipes.recipe
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +12,6 @@ import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.FragmentRecipeBinding
 import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import java.io.InputStream
 
 class RecipeFragment : Fragment() {
 
@@ -78,14 +75,9 @@ class RecipeFragment : Fragment() {
         viewModel.recipeStateLD.observe(viewLifecycleOwner) { recipeState ->
             recipeState.recipe?.let { recipe ->
                 binding.tvRecipeName.text = recipe.title
-                try {
-                    val inputStream: InputStream? =
-                        requireContext().assets?.open(recipe.imageUrl)
-                    val drawable = Drawable.createFromStream(inputStream, null)
-                    binding.ivRecipeImg.setImageDrawable(drawable)
+                recipeState.recipeImage?.let { recipeImg ->
+                    binding.ivRecipeImg.setImageDrawable(recipeImg)
                     binding.ivRecipeImg.contentDescription = "Img of ${recipe.title}"
-                } catch (e: Exception) {
-                    Log.d("!!!", "Error loading img: ${e.message}")
                 }
                 with(binding.ibToFavorite) {
                     setOnClickListener {

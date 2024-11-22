@@ -2,6 +2,7 @@ package aps.fithom.startandroidapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -10,8 +11,9 @@ import aps.fithom.startandroidapp.data.local.STUB
 import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_FAVORITE_SET
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_NAME
+import java.io.InputStream
 
-class RecipeViewModel(application: Application) : AndroidViewModel(application) {
+class RecipeViewModel(private val application: Application) : AndroidViewModel(application) {
 
     private val _recipeStateLD = MutableLiveData<RecipeState>()
     val recipeStateLD: LiveData<RecipeState>
@@ -34,8 +36,22 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         //TODO load from network
         val recipe = STUB.getRecipeById(recipeId)
         val isInFavorite = getFavoritesFromPrefs()?.contains(recipeId.toString()) == true
+        val recipeImage = try {
+            recipe?.let {
+                val inputStream: InputStream? =
+                    application.assets?.open(it.imageUrl)
+                Drawable.createFromStream(inputStream, null)
+            }
+        } catch (e: Exception) {
+            Log.e("!!!", "Error loading img: ${e.message}")
+            null
+        }
         _recipeStateLD.value =
-            _recipeStateLD.value?.copy(recipe = recipe, isInFavorite = isInFavorite)
+            _recipeStateLD.value?.copy(
+                recipe = recipe,
+                isInFavorite = isInFavorite,
+                recipeImage = recipeImage
+            )
 
     }
 
@@ -66,6 +82,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val isInFavorite: Boolean = false,
         val portionAmount: Int = 1,
+        val recipeImage: Drawable? = null
     )
 
 }
