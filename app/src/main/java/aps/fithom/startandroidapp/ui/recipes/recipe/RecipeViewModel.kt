@@ -77,6 +77,10 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
         }
     }
 
+    fun updatePortionAmount(amount: Int) {
+        _recipeStateLD.value = _recipeStateLD.value?.copy(portionAmount = amount)
+    }
+
 
     data class RecipeState(
         val recipe: Recipe? = null,

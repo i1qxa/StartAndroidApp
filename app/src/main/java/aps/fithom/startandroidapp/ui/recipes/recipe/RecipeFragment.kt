@@ -48,8 +48,7 @@ class RecipeFragment : Fragment() {
         binding.sbPortionsAmount.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
-                ingredientRVAdapter?.updateIngredients(progress)
-                binding.tvPortionsAmount.text = progress.toString()
+                viewModel.updatePortionAmount(progress)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -89,6 +88,8 @@ class RecipeFragment : Fragment() {
                 cookingMethodRVAdapter = CookingMethodListRVAdapter(recipe.method)
                 binding.rvCookingMethods.adapter = cookingMethodRVAdapter
             }
+            ingredientRVAdapter?.updateIngredients(recipeState.portionAmount)
+            binding.tvPortionsAmount.text = recipeState.portionAmount.toString()
             updateFavoriteIcon(recipeState.isInFavorite)
         }
     }
