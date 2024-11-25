@@ -3,19 +3,25 @@ package aps.fithom.startandroidapp.ui.recipes.recipe
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import aps.fithom.startandroidapp.domain.models.Ingredient
 import aps.fithom.startandroidapp.databinding.ItemIngredientBinding
+import aps.fithom.startandroidapp.domain.models.Ingredient
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class IngredientListRVAdapter(private val ingredientList: List<Ingredient>) :
+class IngredientListRVAdapter() :
     RecyclerView.Adapter<IngredientListRVAdapter.IngredientListViewHolder>() {
 
     private var quantity = 1
+    private var ingredientList = listOf<Ingredient>()
 
-    fun updateIngredients(progress: Int) {
+    fun updateIngredientsAmount(progress: Int) {
         quantity = progress
-        this.notifyDataSetChanged()
+        notifyDataSetChanged()
+    }
+
+    fun updateIngredients(ingredients: List<Ingredient>) {
+        ingredientList = ingredients
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientListViewHolder {

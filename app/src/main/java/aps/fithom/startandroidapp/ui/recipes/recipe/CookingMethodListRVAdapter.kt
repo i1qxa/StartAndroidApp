@@ -5,8 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import aps.fithom.startandroidapp.databinding.ItemMethodBinding
 
-class CookingMethodListRVAdapter(private val cookingMethodList: List<String>) :
+class CookingMethodListRVAdapter() :
     RecyclerView.Adapter<CookingMethodListRVAdapter.CookingMethodListViewHolder>() {
+
+    private var cookingMethodList = listOf<String>()
+
+    fun updateCookingMethodList(methodList: List<String>) {
+        cookingMethodList = methodList
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CookingMethodListViewHolder {
         val binding = ItemMethodBinding.inflate(LayoutInflater.from(parent.context), parent, false)

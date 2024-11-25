@@ -20,8 +20,8 @@ class RecipeFragment : Fragment() {
         get() = _binding ?: throw IllegalStateException("FragmentRecipeBinding must not be null")
 
     private val viewModel by viewModels<RecipeViewModel>()
-    private var ingredientRVAdapter: IngredientListRVAdapter? = null
-    private var cookingMethodRVAdapter: CookingMethodListRVAdapter? = null
+    private val ingredientRVAdapter by lazy { IngredientListRVAdapter() }
+    private val cookingMethodRVAdapter by lazy { CookingMethodListRVAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +48,7 @@ class RecipeFragment : Fragment() {
         binding.sbPortionsAmount.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
-                ingredientRVAdapter?.updateIngredients(progress)
-                binding.tvPortionsAmount.text = progress.toString()
+                viewModel.updatePortionAmount(progress)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -67,8 +66,14 @@ class RecipeFragment : Fragment() {
             dividerThickness = resources.getDimensionPixelSize(R.dimen.divider_height)
             isLastItemDecorated = false
         }
-        binding.rvIngredients.addItemDecoration(divider)
-        binding.rvCookingMethods.addItemDecoration(divider)
+        with(binding.rvIngredients) {
+            addItemDecoration(divider)
+            adapter = ingredientRVAdapter
+        }
+        with(binding.rvCookingMethods) {
+            addItemDecoration(divider)
+            adapter = cookingMethodRVAdapter
+        }
     }
 
     private fun initUi() {
@@ -84,11 +89,11 @@ class RecipeFragment : Fragment() {
                         viewModel.onFavoritesClicked()
                     }
                 }
-                ingredientRVAdapter = IngredientListRVAdapter(recipe.ingredients)
-                binding.rvIngredients.adapter = ingredientRVAdapter
-                cookingMethodRVAdapter = CookingMethodListRVAdapter(recipe.method)
-                binding.rvCookingMethods.adapter = cookingMethodRVAdapter
+                ingredientRVAdapter.updateIngredients(recipe.ingredients)
+                cookingMethodRVAdapter.updateCookingMethodList(recipe.method)
             }
+            ingredientRVAdapter.updateIngredientsAmount(recipeState.portionAmount)
+            binding.tvPortionsAmount.text = recipeState.portionAmount.toString()
             updateFavoriteIcon(recipeState.isInFavorite)
         }
     }
