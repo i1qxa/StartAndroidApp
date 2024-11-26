@@ -8,10 +8,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import aps.fithom.startandroidapp.data.local.STUB
+import aps.fithom.startandroidapp.data.local.getDrawableOrNullFromAssetsByPath
 import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_FAVORITE_SET
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_NAME
-import java.io.InputStream
 
 class RecipeViewModel(private val application: Application) : AndroidViewModel(application) {
 
@@ -36,15 +36,8 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
         //TODO load from network
         val recipe = STUB.getRecipeById(recipeId)
         val isInFavorite = getFavoritesFromPrefs()?.contains(recipeId.toString()) == true
-        val recipeImage = try {
-            recipe?.let {
-                val inputStream: InputStream? =
-                    application.assets?.open(it.imageUrl)
-                Drawable.createFromStream(inputStream, null)
-            }
-        } catch (e: Exception) {
-            Log.e("!!!", "Error loading img: ${e.message}")
-            null
+        val recipeImage = recipe?.let {
+            application.getDrawableOrNullFromAssetsByPath(it.imageUrl)
         }
         _recipeStateLD.value =
             _recipeStateLD.value?.copy(

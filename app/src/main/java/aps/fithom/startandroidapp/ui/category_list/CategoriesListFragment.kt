@@ -42,16 +42,10 @@ class CategoriesListFragment : Fragment() {
         val rvAdapter = CategoryListRVAdapter(STUB.getCategories())
         rvAdapter.setOnItemClickListener(object : CategoryListRVAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
-                STUB.getCategories().find { it.id == categoryId }?.let { category ->
-                    val categoryName = category.title
-                    val categoryImgUrl = category.imageUrl
-                    val bundle = bundleOf(
-                        ARG_CATEGORY_ID to categoryId,
-                        ARG_CATEGORY_NAME to categoryName,
-                        ARG_CATEGORY_IMAGE_URL to categoryImgUrl
-                    )
-                    openRecipesByCategoryId(bundle)
-                }
+                val bundle = bundleOf(
+                    ARG_CATEGORY_ID to categoryId
+                )
+                openRecipesByCategoryId(bundle)
             }
         })
         recycler.adapter = rvAdapter
