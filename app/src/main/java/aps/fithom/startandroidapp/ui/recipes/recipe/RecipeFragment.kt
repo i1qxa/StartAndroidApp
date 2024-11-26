@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,17 +46,10 @@ class RecipeFragment : Fragment() {
     private fun initRecycler() {
 
         binding.tvPortionsAmount.text = (binding.sbPortionsAmount.progress).toString()
-        binding.sbPortionsAmount.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
-                viewModel.updatePortionAmount(progress)
-            }
-
-            override fun onStartTrackingTouch(p0: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(p0: SeekBar?) {
-            }
+        binding.sbPortionsAmount.setOnSeekBarChangeListener(PortionSeekBarListener {
+            viewModel.updatePortionAmount(
+                it
+            )
         })
 
         val divider = MaterialDividerItemDecoration(
@@ -116,6 +110,21 @@ class RecipeFragment : Fragment() {
     companion object {
         const val PREFS_NAME = "start_android_app_prefs"
         const val PREFS_FAVORITE_SET = "favorite_set"
+    }
+
+    class PortionSeekBarListener(private val onChangeIngredients: (Int) -> Unit) : OnSeekBarChangeListener {
+
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            onChangeIngredients.invoke(progress)
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+        }
+
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+        }
     }
 
 }
