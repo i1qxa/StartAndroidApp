@@ -1,19 +1,23 @@
 package aps.fithom.startandroidapp.ui.recipes.recipes_list
 
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import aps.fithom.startandroidapp.R
-import aps.fithom.startandroidapp.domain.models.Recipe
+import aps.fithom.startandroidapp.data.local.getDrawableOrNullFromAssetsByPath
 import aps.fithom.startandroidapp.databinding.ItemRecipeBinding
-import java.io.InputStream
+import aps.fithom.startandroidapp.domain.models.Recipe
 
-class RecipeListRVAdapter(private val recipeList: List<Recipe>) :
+class RecipeListRVAdapter() :
     RecyclerView.Adapter<RecipeListRVAdapter.RecipeListViewHolder>() {
 
+    private var recipesList: List<Recipe> = emptyList()
     var recipeItemClickListener: OnRecipeItemClickListener? = null
+
+    fun updateRecipesList(recipes: List<Recipe>) {
+        recipesList = recipes
+        notifyDataSetChanged()
+    }
 
     interface OnRecipeItemClickListener {
         fun onItemClick(recipeId: Int)
@@ -29,21 +33,15 @@ class RecipeListRVAdapter(private val recipeList: List<Recipe>) :
     }
 
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
-        val item = recipeList[position]
+        val item = recipesList[position]
         holder.tvRecipeName.text = item.title
-        try {
-            val inputStream: InputStream? =
-                holder.itemView.context?.assets?.open(recipeList[position].imageUrl)
-            val drawable = Drawable.createFromStream(inputStream, null)
+        holder.itemView.context?.getDrawableOrNullFromAssetsByPath(item.imageUrl)?.let { drawable ->
             holder.ivRecipeLogo.setImageDrawable(drawable)
             holder.ivRecipeLogo.contentDescription =
                 holder.itemView.context.getString(
                     R.string.content_description_recipe_img,
                     item.title
                 )
-        } catch (e: Exception) {
-            holder.ivRecipeLogo.setImageDrawable(null)
-            Log.d("!!!", "Error loading img: ${e.message}")
         }
         holder.itemView.setOnClickListener {
             recipeItemClickListener?.onItemClick(item.id)
@@ -51,7 +49,7 @@ class RecipeListRVAdapter(private val recipeList: List<Recipe>) :
     }
 
     override fun getItemCount(): Int {
-        return recipeList.size
+        return recipesList.size
     }
 
     class RecipeListViewHolder(binding: ItemRecipeBinding) :

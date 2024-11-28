@@ -287,4 +287,8 @@ object STUB {
         return burgerRecipes.filter { recipe -> recipesId.contains(recipe.id) }
     }
 
+    fun getCategoryOrNullById(categoryId: Int): Category? {
+        return categories.firstOrNull { it.id == categoryId }
+    }
+
 }
