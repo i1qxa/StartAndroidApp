@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.data.local.STUB
 import aps.fithom.startandroidapp.databinding.FragmentRecipesListBinding
 import aps.fithom.startandroidapp.ui.category_list.ARG_CATEGORY_ID
-import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment
 
 class RecipesListFragment : Fragment() {
 
@@ -68,19 +66,11 @@ class RecipesListFragment : Fragment() {
                     val bundle = Bundle().apply {
                         putInt(ARG_RECIPE_ID, recipeId)
                     }
-                    openRecipeByBundle(bundle)
+                    findNavController().navigate(R.id.recipeFragment, bundle)
                 }
             }
         })
         recycler.adapter = recipesListRVAdapter
-    }
-
-    private fun openRecipeByBundle(bundle: Bundle) {
-        parentFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace<RecipeFragment>(R.id.mainContainer, args = bundle)
-            addToBackStack(null)
-        }
     }
 
     override fun onDestroy() {

@@ -42,17 +42,16 @@
             android:layout_width="@dimen/_40dp"
             android:layout_height="@dimen/_40dp"
             android:layout_margin="@dimen/margin_main"
-            android:contentDescription="@string/add_to_favorite"
-            android:padding="0dp"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/ic_heart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/transparent_100"
             android:clickable="true"
+            android:contentDescription="@string/add_to_favorite"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:background="@color/transparent_100"
-            />
+            android:padding="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_heart" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -99,17 +98,16 @@
 
             <SeekBar
                 android:id="@+id/sbPortionsAmount"
+                style="@style/StyleSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30dp"
-                android:paddingStart="@dimen/margin_5dp"
-                android:paddingEnd="@dimen/margin_5dp"
-                android:paddingTop="@dimen/margin_5dp"
-                android:paddingBottom="@dimen/margin_5dp"
                 android:max="5"
                 android:min="1"
-                android:progress="1"
-                style="@style/StyleSeekBar"
-                />
+                android:paddingStart="@dimen/margin_5dp"
+                android:paddingTop="@dimen/margin_5dp"
+                android:paddingEnd="@dimen/margin_5dp"
+                android:paddingBottom="@dimen/margin_5dp"
+                android:progress="1" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredients"

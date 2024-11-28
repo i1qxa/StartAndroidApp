@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.category_list.CategoriesListFragment"
     android:background="@color/background_main"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.category_list.CategoriesListFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clHeader"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/main_header_height_224dp"
-        >
+        android:layout_height="@dimen/main_header_height_224dp">
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/bcg_categories"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:contentDescription="@string/category_logo"
-            />
+            android:scaleType="centerCrop"
+            android:src="@drawable/bcg_categories"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            style="@style/StyleTitle20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="@dimen/margin_main"
-            android:text="@string/btn_category_text"
-            style="@style/StyleTitle20"
             android:background="@drawable/shape_rounded_tv"
             android:padding="@dimen/margin_10dp"
-            />
+            android:text="@string/btn_category_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -47,11 +44,10 @@
         android:layout_marginHorizontal="@dimen/main_space_8"
         android:layout_marginTop="@dimen/main_space_8"
         android:layout_marginBottom="@dimen/margin_12dp"
-        tools:itemCount="6"
+        android:contentDescription="@string/category_list"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/item_category"
-        android:contentDescription="@string/category_list"
-        />
+        tools:itemCount="6"
+        tools:listitem="@layout/item_category" />
 
 </LinearLayout>

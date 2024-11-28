@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/main_space_8"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="@dimen/main_space_8"
     android:clickable="true"
     android:focusable="true"
-    >
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/main_space_8">
 
     <LinearLayout
         android:id="@+id/clCard"
@@ -23,23 +22,22 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/bcg_categories"
-            />
+            tools:src="@drawable/bcg_categories" />
 
         <TextView
             android:id="@+id/tvCategoryName"
+            style="@style/StyleTitle14purple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/main_space_8"
-            style="@style/StyleTitle14purple"
             tools:text="BURGERS" />
 
         <TextView
             android:id="@+id/tvCategoryDescription"
+            style="@style/StyleTitle12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_space_8"
-            style="@style/StyleTitle12"
             tools:text="Самые вкусные рецепты десертов специально для вас" />
 
     </LinearLayout>
