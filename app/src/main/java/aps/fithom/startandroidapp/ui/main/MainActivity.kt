@@ -33,10 +33,10 @@ class MainActivity : AppCompatActivity() {
     private fun setupBtnClickListeners() {
         with(binding) {
             btnCategory.setOnClickListener {
-                navController.navigate(R.id.categoriesListFragment)
+                navController.navigate(R.id.global_action_go_to_category_list)
             }
             btnFavorite.setOnClickListener {
-                navController.navigate(R.id.favoritesFragment)
+                navController.navigate(R.id.global_action_go_to_favorites)
             }
         }
     }

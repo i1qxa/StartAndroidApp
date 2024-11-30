@@ -49,7 +49,10 @@ class CategoriesListFragment : Fragment() {
                 val bundle = bundleOf(
                     ARG_CATEGORY_ID to categoryId
                 )
-                findNavController().navigate(R.id.recipesListFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_categoriesListFragment_to_recipesListFragment,
+                    bundle
+                )
             }
         })
         binding.rvCategory.adapter = categoryRVAdapter
