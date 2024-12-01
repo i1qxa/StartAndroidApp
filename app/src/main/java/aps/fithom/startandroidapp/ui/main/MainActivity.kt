@@ -5,14 +5,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import androidx.navigation.findNavController
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.ActivityMainBinding
-import aps.fithom.startandroidapp.ui.category_list.CategoriesListFragment
-import aps.fithom.startandroidapp.ui.recipes.favorites.FavoritesFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for ActivityMainBinding must not be null")
+    private val navController by lazy { findNavController(R.id.mainContainer) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,35 +27,20 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        if (savedInstanceState == null) initCategoryListFragment()
         setupBtnClickListeners()
-    }
-
-    private fun initCategoryListFragment() {
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            add<CategoriesListFragment>(R.id.mainContainer)
-            addToBackStack(null)
-        }
     }
 
     private fun setupBtnClickListeners() {
         with(binding) {
             btnCategory.setOnClickListener {
-                replaceFragment<CategoriesListFragment>()
+                navController.navigate(R.id.global_action_go_to_category_list)
             }
             btnFavorite.setOnClickListener {
-                replaceFragment<FavoritesFragment>()
+                navController.navigate(R.id.global_action_go_to_favorites)
             }
         }
     }
 
-    private inline fun <reified T : Fragment> replaceFragment() {
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace<T>(binding.mainContainer.id)
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()

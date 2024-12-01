@@ -6,16 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.FragmentCategoriesListBinding
-import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment
 
 const val ARG_CATEGORY_ID = "category_id"
-//const val ARG_CATEGORY_NAME = "category_name"
-//const val ARG_CATEGORY_IMAGE_URL = "category_img_url"
 
 class CategoriesListFragment : Fragment() {
 
@@ -53,18 +49,13 @@ class CategoriesListFragment : Fragment() {
                 val bundle = bundleOf(
                     ARG_CATEGORY_ID to categoryId
                 )
-                openRecipesByCategoryId(bundle)
+                findNavController().navigate(
+                    R.id.action_categoriesListFragment_to_recipesListFragment,
+                    bundle
+                )
             }
         })
         binding.rvCategory.adapter = categoryRVAdapter
-    }
-
-    private fun openRecipesByCategoryId(args: Bundle) {
-        parentFragmentManager.commit {
-            setReorderingAllowed(true)
-            add<RecipesListFragment>(R.id.mainContainer, args = args)
-            addToBackStack(null)
-        }
     }
 
     override fun onDestroyView() {

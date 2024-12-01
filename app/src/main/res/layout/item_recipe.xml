@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_main"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="@dimen/main_space_8"
     android:clickable="true"
     android:focusable="true"
-    >
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/main_space_8">
 
     <LinearLayout
         android:id="@+id/clCardRecipe"
@@ -23,15 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/bcg_categories"
-            />
+            tools:src="@drawable/bcg_categories" />
 
         <TextView
             android:id="@+id/tvRecipeName"
+            style="@style/StyleTitle14purple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/main_space_8"
-            style="@style/StyleTitle14purple"
             tools:text="BURGERS" />
 
     </LinearLayout>
