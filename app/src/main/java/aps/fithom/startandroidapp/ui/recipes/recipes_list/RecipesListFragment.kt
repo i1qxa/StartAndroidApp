@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import aps.fithom.startandroidapp.R
-import aps.fithom.startandroidapp.data.local.STUB
 import aps.fithom.startandroidapp.databinding.FragmentRecipesListBinding
-import aps.fithom.startandroidapp.ui.category_list.ARG_CATEGORY_ID
 
 class RecipesListFragment : Fragment() {
 
@@ -20,6 +19,7 @@ class RecipesListFragment : Fragment() {
             ?: throw (IllegalStateException("FragmentRecipesListBinding must not be null"))
     private val viewModel by viewModels<RecipesListViewModel>()
     private val recipesListRVAdapter = RecipeListRVAdapter()
+    private val args by navArgs<RecipesListFragmentArgs>()
 
 
     override fun onCreateView(
@@ -32,11 +32,7 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireArguments().let { arguments ->
-            arguments.getInt(ARG_CATEGORY_ID).let {
-                viewModel.loadCategoryAndUpdateRecipesList(it)
-            }
-        }
+        viewModel.loadCategoryAndUpdateRecipesList(args.RECIPEID)
         initUi()
         initRecycler()
     }
@@ -62,15 +58,10 @@ class RecipesListFragment : Fragment() {
         recipesListRVAdapter.setOnRecipeItemClickListener(object :
             RecipeListRVAdapter.OnRecipeItemClickListener {
             override fun onItemClick(recipeId: Int) {
-                STUB.getRecipeById(recipeId)?.let { recipe ->
-                    val bundle = Bundle().apply {
-                        putInt(ARG_RECIPE_ID, recipeId)
+                RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeId)
+                    .apply {
+                        findNavController().navigate(this)
                     }
-                    findNavController().navigate(
-                        R.id.action_recipesListFragment_to_recipeFragment,
-                        bundle
-                    )
-                }
             }
         })
         recycler.adapter = recipesListRVAdapter
@@ -79,10 +70,6 @@ class RecipesListFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    companion object {
-        const val ARG_RECIPE_ID = "arg_recipe_id"
     }
 
 }

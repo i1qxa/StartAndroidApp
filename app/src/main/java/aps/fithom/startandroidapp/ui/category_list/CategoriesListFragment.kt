@@ -4,14 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.FragmentCategoriesListBinding
-
-const val ARG_CATEGORY_ID = "category_id"
 
 class CategoriesListFragment : Fragment() {
 
@@ -46,13 +42,11 @@ class CategoriesListFragment : Fragment() {
         categoryRVAdapter.setOnItemClickListener(object :
             CategoryListRVAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
-                val bundle = bundleOf(
-                    ARG_CATEGORY_ID to categoryId
-                )
-                findNavController().navigate(
-                    R.id.action_categoriesListFragment_to_recipesListFragment,
-                    bundle
-                )
+                CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
+                    categoryId
+                ).apply {
+                    findNavController().navigate(this)
+                }
             }
         })
         binding.rvCategory.adapter = categoryRVAdapter

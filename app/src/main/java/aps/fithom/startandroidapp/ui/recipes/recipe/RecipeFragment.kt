@@ -8,10 +8,10 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.FragmentRecipeBinding
-import aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class RecipeFragment : Fragment() {
@@ -23,6 +23,7 @@ class RecipeFragment : Fragment() {
     private val viewModel by viewModels<RecipeViewModel>()
     private val ingredientRVAdapter by lazy { IngredientListRVAdapter() }
     private val cookingMethodRVAdapter by lazy { CookingMethodListRVAdapter() }
+    private val args by navArgs<RecipeFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,11 +35,7 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireArguments().let { arguments ->
-            arguments.getInt(RecipesListFragment.ARG_RECIPE_ID).let {
-                viewModel.loadRecipe(it)
-            }
-        }
+        viewModel.loadRecipe(args.RECIPEID)
         initUi()
         initRecycler()
     }
@@ -112,7 +109,8 @@ class RecipeFragment : Fragment() {
         const val PREFS_FAVORITE_SET = "favorite_set"
     }
 
-    class PortionSeekBarListener(private val onChangeIngredients: (Int) -> Unit) : OnSeekBarChangeListener {
+    class PortionSeekBarListener(private val onChangeIngredients: (Int) -> Unit) :
+        OnSeekBarChangeListener {
 
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             onChangeIngredients(progress)
