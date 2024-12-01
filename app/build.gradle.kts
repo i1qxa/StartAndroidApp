@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlinx.serialisation)
+    alias(libs.plugins.android.safe.args)
     id("kotlin-parcelize")
 }
 

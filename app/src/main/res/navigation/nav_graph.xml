@@ -27,7 +27,11 @@
         android:id="@+id/recipeFragment"
         android:name="aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment"
         android:label="RecipeFragment"
-        tools:layout="@layout/fragment_recipe" />
+        tools:layout="@layout/fragment_recipe" >
+        <argument
+            android:name="RECIPE_ID"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/recipesListFragment"
         android:name="aps.fithom.startandroidapp.ui.recipes.recipes_list.RecipesListFragment"
@@ -36,6 +40,9 @@
         <action
             android:id="@+id/action_recipesListFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
+        <argument
+            android:name="RECIPE_ID"
+            app:argType="integer" />
     </fragment>
 
     <action
