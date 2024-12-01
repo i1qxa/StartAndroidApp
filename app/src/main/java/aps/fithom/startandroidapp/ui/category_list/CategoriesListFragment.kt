@@ -42,11 +42,11 @@ class CategoriesListFragment : Fragment() {
         categoryRVAdapter.setOnItemClickListener(object :
             CategoryListRVAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
-                CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
-                    categoryId
-                ).apply {
-                    findNavController().navigate(this)
-                }
+                findNavController().navigate(
+                    CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
+                        categoryId
+                    )
+                )
             }
         })
         binding.rvCategory.adapter = categoryRVAdapter

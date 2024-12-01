@@ -53,10 +53,11 @@ class FavoritesFragment : Fragment() {
         recipesListRVAdapter.setOnRecipeItemClickListener(object :
             RecipeListRVAdapter.OnRecipeItemClickListener {
             override fun onItemClick(recipeId: Int) {
-                FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(recipeId)
-                    .apply {
-                        findNavController().navigate(this)
-                    }
+                findNavController().navigate(
+                    FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(
+                        recipeId
+                    )
+                )
             }
         })
         binding.rvRecipesFavorite.adapter = recipesListRVAdapter

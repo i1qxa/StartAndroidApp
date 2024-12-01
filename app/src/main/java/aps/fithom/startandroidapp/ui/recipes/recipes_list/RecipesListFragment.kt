@@ -32,7 +32,7 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.loadCategoryAndUpdateRecipesList(args.RECIPEID)
+        viewModel.loadCategoryAndUpdateRecipesList(args.CATEGORYID)
         initUi()
         initRecycler()
     }
@@ -58,10 +58,11 @@ class RecipesListFragment : Fragment() {
         recipesListRVAdapter.setOnRecipeItemClickListener(object :
             RecipeListRVAdapter.OnRecipeItemClickListener {
             override fun onItemClick(recipeId: Int) {
-                RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeId)
-                    .apply {
-                        findNavController().navigate(this)
-                    }
+                findNavController().navigate(
+                    RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(
+                        recipeId
+                    )
+                )
             }
         })
         recycler.adapter = recipesListRVAdapter
