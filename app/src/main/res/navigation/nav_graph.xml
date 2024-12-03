@@ -56,7 +56,7 @@
             />
         <argument
             android:name="Category"
-            app:argType="aps.fithom.startandroidapp.domain.models.CategoryParcel" />
+            app:argType="aps.fithom.startandroidapp.domain.models.Category" />
     </fragment>
 
     <action

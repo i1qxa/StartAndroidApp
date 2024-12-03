@@ -1,7 +1,7 @@
 package aps.fithom.startandroidapp.domain.models
 
+import android.os.Parcel
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,33 +10,32 @@ data class Category(
     val title: String,
     val description: String,
     val imageUrl: String,
-)
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
+    )
 
-@Parcelize
-data class CategoryParcel(
-    val id: Int,
-    val title: String,
-    val description: String,
-    val imageUrl: String,
-):Parcelable{
-
-    fun getCategoryFromParcel():Category{
-        return Category(
-            id,
-            title,
-            description,
-            imageUrl
-        )
+    override fun describeContents(): Int {
+        return 0
     }
 
-    companion object{
-        fun getInstanceFromCategory(category: Category):CategoryParcel{
-            return CategoryParcel(
-                category.id,
-                category.title,
-                category.description,
-                category.imageUrl
-            )
+    override fun writeToParcel(p0: Parcel, p1: Int) {
+        p0.writeInt(id)
+        p0.writeString(title)
+        p0.writeString(description)
+        p0.writeString(imageUrl)
+    }
+
+    companion object CREATOR : Parcelable.Creator<Category> {
+        override fun createFromParcel(parcel: Parcel): Category {
+            return Category(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Category?> {
+            return arrayOfNulls(size)
         }
     }
 }
