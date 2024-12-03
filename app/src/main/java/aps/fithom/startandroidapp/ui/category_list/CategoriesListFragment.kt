@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import aps.fithom.startandroidapp.databinding.FragmentCategoriesListBinding
+import aps.fithom.startandroidapp.domain.models.CategoryParcel
 
 class CategoriesListFragment : Fragment() {
 
@@ -41,10 +42,10 @@ class CategoriesListFragment : Fragment() {
     private fun initRecycler() {
         categoryRVAdapter.setOnItemClickListener(object :
             CategoryListRVAdapter.OnItemClickListener {
-            override fun onItemClick(categoryId: Int) {
+            override fun onItemClick(categoryParcel: CategoryParcel) {
                 findNavController().navigate(
                     CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
-                        categoryId
+                        categoryParcel
                     )
                 )
             }

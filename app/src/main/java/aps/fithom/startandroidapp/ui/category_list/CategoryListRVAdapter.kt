@@ -7,6 +7,7 @@ import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.data.local.getDrawableOrNullFromAssetsByPath
 import aps.fithom.startandroidapp.databinding.ItemCategoryBinding
 import aps.fithom.startandroidapp.domain.models.Category
+import aps.fithom.startandroidapp.domain.models.CategoryParcel
 
 class CategoryListRVAdapter() :
     RecyclerView.Adapter<CategoryListRVAdapter.CategoryListViewHolder>() {
@@ -15,7 +16,7 @@ class CategoryListRVAdapter() :
     var itemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(categoryId: Int)
+        fun onItemClick(categoryParcel: CategoryParcel)
     }
 
     fun updateCategoryList(categorys: List<Category>) {
@@ -45,7 +46,7 @@ class CategoryListRVAdapter() :
             )
         }
         holder.itemView.setOnClickListener {
-            itemClickListener?.onItemClick(item.id)
+            itemClickListener?.onItemClick(CategoryParcel.getInstanceFromCategory(item))
         }
     }
 

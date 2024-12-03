@@ -32,7 +32,7 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.loadCategoryAndUpdateRecipesList(args.CATEGORYID)
+        viewModel.loadCategoryAndUpdateRecipesList(args.Category.getCategoryFromParcel())
         initUi()
         initRecycler()
     }
