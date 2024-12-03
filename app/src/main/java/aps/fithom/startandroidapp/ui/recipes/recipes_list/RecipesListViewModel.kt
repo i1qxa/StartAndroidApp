@@ -22,9 +22,9 @@ class RecipesListViewModel(private val application: Application) : AndroidViewMo
         val categoryImg: Drawable? = null
     )
 
-    fun loadCategoryAndUpdateRecipesList(categoryId: Int) {
+    fun loadCategoryAndUpdateRecipesList(category: Category) {
         _recipesListStateLD.value =
-            _recipesListStateLD.value?.copy(category = STUB.getCategoryOrNullById(categoryId))
+            _recipesListStateLD.value?.copy(category = category)
         _recipesListStateLD.value?.category?.id?.let {
             _recipesListStateLD.value =
                 _recipesListStateLD.value?.copy(recipesList = STUB.getRecipesByCategoryId(it))
