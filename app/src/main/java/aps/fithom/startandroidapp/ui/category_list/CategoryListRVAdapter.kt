@@ -15,7 +15,7 @@ class CategoryListRVAdapter() :
     var itemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(categoryId: Int)
+        fun onItemClick(category: Category)
     }
 
     fun updateCategoryList(categorys: List<Category>) {
@@ -45,7 +45,7 @@ class CategoryListRVAdapter() :
             )
         }
         holder.itemView.setOnClickListener {
-            itemClickListener?.onItemClick(item.id)
+            itemClickListener?.onItemClick(item)
         }
     }
 
