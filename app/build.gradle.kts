@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation (libs.gson)
 
 //  Test libs
     testImplementation(libs.junit)

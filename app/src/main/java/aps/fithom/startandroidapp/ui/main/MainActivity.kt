@@ -1,6 +1,7 @@
 package aps.fithom.startandroidapp.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -8,6 +9,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.ActivityMainBinding
+import aps.fithom.startandroidapp.domain.models.Category
+import com.google.gson.Gson
+import java.net.HttpURLConnection
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +33,22 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         setupBtnClickListeners()
+        Log.d(LOG_TAG, "Выполняется на потоке: ${Thread.currentThread().name}")
+        val thread = Thread{
+            val url = URL("https://recipes.androidsprint.ru/api/category")
+            val urlConnection = url.openConnection() as HttpURLConnection
+            urlConnection.connect()
+            val categorysJson = urlConnection.inputStream.bufferedReader().readText()
+            Log.d(LOG_TAG, "Response body: ${categorysJson}")
+            Log.d(LOG_TAG, "Выполняю запрос на потоке: ${Thread.currentThread().name}")
+            val gson = Gson()
+            val categoryList = gson.fromJson(categorysJson, Array<Category>::class.java)
+            categoryList.forEach {
+                Log.d(LOG_TAG, "Category: ${it}")
+            }
+        }
+        thread.start()
+
     }
 
     private fun setupBtnClickListeners() {
@@ -46,4 +67,9 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         _binding = null
     }
+
+    companion object{
+        const val LOG_TAG = "|||"
+    }
+
 }
