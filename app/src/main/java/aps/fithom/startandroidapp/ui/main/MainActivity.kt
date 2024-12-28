@@ -34,20 +34,26 @@ class MainActivity : AppCompatActivity() {
         }
         setupBtnClickListeners()
         Log.d(LOG_TAG, "Выполняется на потоке: ${Thread.currentThread().name}")
-        val thread = Thread{
+        val thread = Thread {
             val url = URL("https://recipes.androidsprint.ru/api/category")
-            val urlConnection = url.openConnection() as HttpURLConnection
-            urlConnection.connect()
-            val categorysJson = urlConnection.inputStream.bufferedReader().readText()
-            Log.d(LOG_TAG, "Response body: ${categorysJson}")
-            Log.d(LOG_TAG, "Выполняю запрос на потоке: ${Thread.currentThread().name}")
-            val gson = Gson()
-            val categoryList = gson.fromJson(categorysJson, Array<Category>::class.java)
-            categoryList.forEach {
-                Log.d(LOG_TAG, "Category: ${it}")
+            val connection = url.openConnection() as HttpURLConnection
+            try {
+                connection.connect()
+                val categorysJson = connection.inputStream.bufferedReader().readText()
+                Log.d(LOG_TAG, "Response body: ${categorysJson}")
+                Log.d(LOG_TAG, "Выполняю запрос на потоке: ${Thread.currentThread().name}")
+                val gson = Gson()
+                val categoryList = gson.fromJson(categorysJson, Array<Category>::class.java)
+                categoryList.forEach {
+                    Log.d(LOG_TAG, "Category: ${it}")
+                }
+            } catch (e: Exception) {
+                Log.e(LOG_TAG, "Error connection : ${e.message.toString()}")
             }
+
         }
         thread.start()
+
 
     }
 
@@ -68,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         _binding = null
     }
 
-    companion object{
+    companion object {
         const val LOG_TAG = "|||"
     }
 
