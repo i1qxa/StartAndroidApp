@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.gson.v288)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
 //  Test libs
     testImplementation(libs.junit)
