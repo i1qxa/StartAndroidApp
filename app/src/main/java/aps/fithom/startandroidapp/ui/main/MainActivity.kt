@@ -12,8 +12,9 @@ import aps.fithom.startandroidapp.databinding.ActivityMainBinding
 import aps.fithom.startandroidapp.domain.models.Category
 import aps.fithom.startandroidapp.domain.models.Recipe
 import com.google.gson.Gson
-import java.net.HttpURLConnection
-import java.net.URL
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
@@ -35,14 +36,19 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         setupBtnClickListeners()
-        Log.d(LOG_TAG, "Выполняется на потоке: ${Thread.currentThread().name}")
         val threadPool = Executors.newCachedThreadPool()
         val thread = Thread {
-            val url = URL("https://recipes.androidsprint.ru/api/category")
-            val connection = url.openConnection() as HttpURLConnection
-            try {
-                connection.connect()
-                val categorysJson = connection.inputStream.bufferedReader().readText()
+            val loggingInterceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+            val client = OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build()
+            val request = Request.Builder()
+                .url("https://recipes.androidsprint.ru/api/category")
+                .build()
+            client.newCall(request).execute().use { response ->
+                val categorysJson = response.body?.string()
                 Log.d(LOG_TAG, "Response body: $categorysJson")
                 Log.d(LOG_TAG, "Выполняю запрос на потоке: ${Thread.currentThread().name}")
                 val gson = Gson()
@@ -55,27 +61,21 @@ class MainActivity : AppCompatActivity() {
                 }
                 listCategoryId.forEach { categoryId ->
                     threadPool.submit {
-                        val urlRecipes =
-                            URL("https://recipes.androidsprint.ru/api/category/${categoryId}/recipes")
-                        val connectionRecipes = urlRecipes.openConnection() as HttpURLConnection
-                        try {
-                            connectionRecipes.connect()
-                            val recipesJson =
-                                connectionRecipes.inputStream.bufferedReader().readText()
+                        val recipeRequest = Request.Builder()
+                            .url("https://recipes.androidsprint.ru/api/category/${categoryId}/recipes")
+                            .build()
+                        client.newCall(recipeRequest).execute().use { response ->
                             var logMsg =
                                 "Рецепты получены на потоке: ${Thread.currentThread().name}\n"
-                            val recipeList = gson.fromJson(recipesJson, Array<Recipe>::class.java)
+                            val recipeList =
+                                gson.fromJson(response.body?.string(), Array<Recipe>::class.java)
                             logMsg += recipeList.joinToString("\n") { it.title }
                             Log.d(LOG_TAG, logMsg)
-                        } catch (e: Exception) {
-                            Log.d(LOG_TAG, "Ошибка получения списка рецептов: ${e.message}")
                         }
                     }
                 }
-            } catch (e: Exception) {
-                Log.e(LOG_TAG, "Error connection : ${e.message.toString()}")
-            }
 
+            }
         }
         thread.start()
     }
