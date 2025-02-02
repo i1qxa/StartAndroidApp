@@ -2,7 +2,6 @@ package aps.fithom.startandroidapp.ui.recipes.recipes_list
 
 import android.app.Application
 import android.graphics.drawable.Drawable
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +19,7 @@ class RecipesListViewModel(private val application: Application) : AndroidViewMo
 
     data class RecipesListState(
         val category: Category? = null,
-        val recipesList: List<Recipe> = emptyList(),
+        val recipesList: List<Recipe>? = emptyList(),
         val categoryImg: Drawable? = null
     )
 
@@ -29,16 +28,8 @@ class RecipesListViewModel(private val application: Application) : AndroidViewMo
             _recipesListStateLD.value?.copy(category = category)
         _recipesListStateLD.value?.category?.id?.let { categoryId ->
             val recipes = recipesRepository.getRecipesByCategoryId(categoryId)
-            if (recipes == null) {
-                Toast.makeText(
-                    application.applicationContext,
-                    "Ошибка получения списка рецептов",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                _recipesListStateLD.value =
-                    _recipesListStateLD.value?.copy(recipesList = recipes)
-            }
+            _recipesListStateLD.value =
+                _recipesListStateLD.value?.copy(recipesList = recipes)
         }
         _recipesListStateLD.value?.category?.imageUrl?.let { imgPath ->
             _recipesListStateLD.value = _recipesListStateLD.value?.copy(

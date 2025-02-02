@@ -36,13 +36,6 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
 
     fun loadRecipe(recipeId: Int) {
         val recipe = recipesRepository.getRecipeById(recipeId)
-        if (recipe == null) {
-            Toast.makeText(
-                application.applicationContext,
-                "Ошибка загрузки рецепта",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
         val isInFavorite = getFavoritesFromPrefs()?.contains(recipeId.toString()) == true
         val recipeImage = recipe?.let {
             application.getDrawableOrNullFromAssetsByPath(it.imageUrl)

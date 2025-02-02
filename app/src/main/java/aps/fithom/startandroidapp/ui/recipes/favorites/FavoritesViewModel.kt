@@ -2,7 +2,6 @@ package aps.fithom.startandroidapp.ui.recipes.favorites
 
 import android.app.Application
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,21 +33,13 @@ class FavoritesViewModel(private val application: Application) : AndroidViewMode
     fun updateFavoriteState() {
         getFavoritesFromPrefs()?.let { setIds ->
             val favoriteRecipes = recipesRepository.getRecipesByIds(setIds)
-            if (favoriteRecipes == null) {
-                Toast.makeText(
-                    application.applicationContext,
-                    "Ошибка получения списка избранных рецептов",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                _favoritesStateLD.value =
-                    _favoritesStateLD.value?.copy(recipesList = favoriteRecipes)
-            }
+            _favoritesStateLD.value =
+                _favoritesStateLD.value?.copy(recipesList = favoriteRecipes)
         }
     }
 
     data class FavoritesState(
-        val recipesList: List<Recipe> = emptyList()
+        val recipesList: List<Recipe>? = emptyList()
     )
 
 }

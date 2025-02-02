@@ -22,19 +22,12 @@ class CategoryViewModel(private val application: Application) : AndroidViewModel
 
     fun updateCategoryList() {
         val recipeList = recipesRepository.getCategories()
-        if (recipeList == null) {
-            Toast.makeText(
-                application.applicationContext,
-                "Ошибка получения списка категорий",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            _categoryStateLD.value = _categoryStateLD.value?.copy(categoryList = recipeList)
-        }
+        _categoryStateLD.value = _categoryStateLD.value?.copy(categoryList = recipeList)
+
     }
 
     data class CategoryState(
-        val categoryList: List<Category> = emptyList()
+        val categoryList: List<Category>? = emptyList()
     )
 
 }
