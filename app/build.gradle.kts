@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.gson.v288)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+    implementation (libs.retrofit)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
 //  Test libs
     testImplementation(libs.junit)

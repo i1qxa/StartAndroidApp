@@ -80,8 +80,8 @@ class RecipeFragment : Fragment() {
                         viewModel.onFavoritesClicked()
                     }
                 }
-                ingredientRVAdapter.updateIngredients(recipe.ingredients)
-                cookingMethodRVAdapter.updateCookingMethodList(recipe.method)
+                ingredientRVAdapter.updateIngredients(recipe.ingredients!!)
+                cookingMethodRVAdapter.updateCookingMethodList(recipe.method!!)
             }
             ingredientRVAdapter.updateIngredientsAmount(recipeState.portionAmount)
             binding.tvPortionsAmount.text = recipeState.portionAmount.toString()
