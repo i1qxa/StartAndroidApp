@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation (libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation (libs.glide)
 
 //  Test libs
     testImplementation(libs.junit)

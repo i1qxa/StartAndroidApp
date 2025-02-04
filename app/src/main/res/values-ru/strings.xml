@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Start Android App</string>
     <string name="btn_category_text">категории</string>
     <string name="btn_favorite_text">избранное</string>
     <string name="category_logo">Логотип категории</string>

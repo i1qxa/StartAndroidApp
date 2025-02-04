@@ -9,8 +9,7 @@ import retrofit2.Retrofit
 
 object RetrofitClient {
 
-
-    private const val BASE_URL = "https://recipes.androidsprint.ru/api/"
+    const val BASE_URL = "https://recipes.androidsprint.ru/api/"
 
     val instance: RecipesService by lazy {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -29,5 +28,6 @@ object RetrofitClient {
 
         retrofit.create(RecipesService::class.java)
     }
+
 
 }

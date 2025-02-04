@@ -12,7 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import aps.fithom.startandroidapp.R
+import aps.fithom.startandroidapp.data.local.getFullImgPathByImgName
 import aps.fithom.startandroidapp.databinding.FragmentRecipeBinding
+import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class RecipeFragment : Fragment() {
@@ -79,10 +81,12 @@ class RecipeFragment : Fragment() {
             }
             recipeState.recipe?.let { recipe ->
                 binding.tvRecipeName.text = recipe.title
-                recipeState.recipeImage?.let { recipeImg ->
-                    binding.ivRecipeImg.setImageDrawable(recipeImg)
-                    binding.ivRecipeImg.contentDescription = "Img of ${recipe.title}"
-                }
+                Glide.with(requireContext())
+                    .load(getFullImgPathByImgName(recipe.imageUrl))
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_error)
+                    .into(binding.ivRecipeImg)
+                binding.ivRecipeImg.contentDescription = "Img of ${recipe.title}"
                 with(binding.ibToFavorite) {
                     setOnClickListener {
                         viewModel.onFavoritesClicked()
