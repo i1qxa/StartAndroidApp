@@ -14,5 +14,9 @@
     <string name="favorites_image">Favorites image</string>
     <string name="favorites">favorites</string>
     <string name="favorites_is_empty">You haven\'t added any recipes to your favorites yet</string>
+    <string name="error_loading_category_list">Error loading category list</string>
+    <string name="error_loading_favorite_recipes">Error loading favorite recipes</string>
+    <string name="error_loading_recipe">Error loading recipe</string>
+    <string name="error_loading_recipe_list">Error loading recipe list</string>
 
 </resources>

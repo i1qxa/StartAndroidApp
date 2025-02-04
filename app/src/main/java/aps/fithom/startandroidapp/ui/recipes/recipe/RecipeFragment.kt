@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -69,6 +70,13 @@ class RecipeFragment : Fragment() {
 
     private fun initUi() {
         viewModel.recipeStateLD.observe(viewLifecycleOwner) { recipeState ->
+            if (recipeState.recipe == null) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.error_loading_recipe),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             recipeState.recipe?.let { recipe ->
                 binding.tvRecipeName.text = recipe.title
                 recipeState.recipeImage?.let { recipeImg ->
@@ -80,8 +88,8 @@ class RecipeFragment : Fragment() {
                         viewModel.onFavoritesClicked()
                     }
                 }
-                ingredientRVAdapter.updateIngredients(recipe.ingredients)
-                cookingMethodRVAdapter.updateCookingMethodList(recipe.method)
+                ingredientRVAdapter.updateIngredients(recipe.ingredients!!)
+                cookingMethodRVAdapter.updateCookingMethodList(recipe.method!!)
             }
             ingredientRVAdapter.updateIngredientsAmount(recipeState.portionAmount)
             binding.tvPortionsAmount.text = recipeState.portionAmount.toString()

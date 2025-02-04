@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.FragmentCategoriesListBinding
 import aps.fithom.startandroidapp.domain.models.Category
 
@@ -35,7 +37,15 @@ class CategoriesListFragment : Fragment() {
 
     private fun initUi() {
         viewModel.categoryStateLD.observe(viewLifecycleOwner) { categoryState ->
-            categoryRVAdapter.updateCategoryList(categoryState.categoryList)
+            if (categoryState.categoryList == null) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.error_loading_category_list),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                categoryRVAdapter.updateCategoryList(categoryState.categoryList)
+            }
         }
     }
 
