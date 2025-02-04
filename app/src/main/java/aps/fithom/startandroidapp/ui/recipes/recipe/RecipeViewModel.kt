@@ -37,14 +37,10 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
     fun loadRecipe(recipeId: Int) {
         val recipe = recipesRepository.getRecipeById(recipeId)
         val isInFavorite = getFavoritesFromPrefs()?.contains(recipeId.toString()) == true
-        val recipeImage = recipe?.let {
-            application.getDrawableOrNullFromAssetsByPath(it.imageUrl)
-        }
         _recipeStateLD.value =
             _recipeStateLD.value?.copy(
                 recipe = recipe,
                 isInFavorite = isInFavorite,
-                recipeImage = recipeImage
             )
 
     }
@@ -80,7 +76,6 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
         val recipe: Recipe? = null,
         val isInFavorite: Boolean = false,
         val portionAmount: Int = 1,
-        val recipeImage: Drawable? = null
     )
 
 }

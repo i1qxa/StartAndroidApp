@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.data.local.getDrawableOrNullFromAssetsByPath
+import aps.fithom.startandroidapp.data.local.getFullImgPathByImgName
 import aps.fithom.startandroidapp.databinding.ItemRecipeBinding
 import aps.fithom.startandroidapp.domain.models.Recipe
+import com.bumptech.glide.Glide
 
 class RecipeListRVAdapter() :
     RecyclerView.Adapter<RecipeListRVAdapter.RecipeListViewHolder>() {
@@ -43,6 +45,11 @@ class RecipeListRVAdapter() :
                     item.title
                 )
         }
+        Glide.with(holder.itemView.context)
+            .load(getFullImgPathByImgName(item.imageUrl))
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
+            .into(holder.ivRecipeLogo)
         holder.itemView.setOnClickListener {
             recipeItemClickListener?.onItemClick(item.id)
         }

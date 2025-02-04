@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.data.local.getDrawableOrNullFromAssetsByPath
+import aps.fithom.startandroidapp.data.local.getFullImgPathByImgName
 import aps.fithom.startandroidapp.databinding.ItemCategoryBinding
 import aps.fithom.startandroidapp.domain.models.Category
+import com.bumptech.glide.Glide
 
 class CategoryListRVAdapter() :
     RecyclerView.Adapter<CategoryListRVAdapter.CategoryListViewHolder>() {
@@ -37,13 +39,11 @@ class CategoryListRVAdapter() :
         val item = categoryList[position]
         holder.tvCategoryName.text = item.title
         holder.tvCategoryDescription.text = item.description
-        holder.itemView.context.getDrawableOrNullFromAssetsByPath(item.imageUrl)?.let {
-            holder.ivCategoryLogo.setImageDrawable(it)
-            holder.itemView.context.getString(
-                R.string.category_image_content_description,
-                item.title
-            )
-        }
+        Glide.with(holder.itemView.context)
+            .load(getFullImgPathByImgName(item.imageUrl))
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
+            .into(holder.ivCategoryLogo)
         holder.itemView.setOnClickListener {
             itemClickListener?.onItemClick(item)
         }
