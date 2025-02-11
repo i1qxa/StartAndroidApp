@@ -5,10 +5,12 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import aps.fithom.startandroidapp.data.remote.RecipesRepository
 import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_FAVORITE_SET
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_NAME
+import kotlinx.coroutines.launch
 
 class FavoritesViewModel(private val application: Application) : AndroidViewModel(application) {
 
@@ -19,7 +21,7 @@ class FavoritesViewModel(private val application: Application) : AndroidViewMode
         )
     }
 
-    private val recipesRepository = RecipesRepository(application)
+    private val recipesRepository = RecipesRepository()
     private val _favoritesStateLD = MutableLiveData(FavoritesState())
     val favoriteStateLD: LiveData<FavoritesState>
         get() = _favoritesStateLD
@@ -31,11 +33,15 @@ class FavoritesViewModel(private val application: Application) : AndroidViewMode
     }
 
     fun updateFavoriteState() {
-        getFavoritesFromPrefs()?.let { setIds ->
-            val favoriteRecipes = recipesRepository.getRecipesByIds(setIds)
-            _favoritesStateLD.value =
-                _favoritesStateLD.value?.copy(recipesList = favoriteRecipes)
+        viewModelScope.launch {
+            getFavoritesFromPrefs()?.let { setIds ->
+                val favoriteRecipes = recipesRepository.getRecipesByIds(setIds).await()
+                _favoritesStateLD.postValue(
+                    _favoritesStateLD.value?.copy(recipesList = favoriteRecipes)
+                )
+            }
         }
+
     }
 
     data class FavoritesState(

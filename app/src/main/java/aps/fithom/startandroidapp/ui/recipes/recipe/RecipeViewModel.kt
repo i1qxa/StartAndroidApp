@@ -8,18 +8,20 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import aps.fithom.startandroidapp.data.local.getDrawableOrNullFromAssetsByPath
 import aps.fithom.startandroidapp.data.remote.RecipesRepository
 import aps.fithom.startandroidapp.domain.models.Recipe
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_FAVORITE_SET
 import aps.fithom.startandroidapp.ui.recipes.recipe.RecipeFragment.Companion.PREFS_NAME
+import kotlinx.coroutines.launch
 
 class RecipeViewModel(private val application: Application) : AndroidViewModel(application) {
 
     private val _recipeStateLD = MutableLiveData<RecipeState>()
     val recipeStateLD: LiveData<RecipeState>
         get() = _recipeStateLD
-    private val recipesRepository = RecipesRepository(application)
+    private val recipesRepository = RecipesRepository()
 
     private val prefs by lazy {
         application.baseContext.getSharedPreferences(
@@ -35,13 +37,17 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
     }
 
     fun loadRecipe(recipeId: Int) {
-        val recipe = recipesRepository.getRecipeById(recipeId)
-        val isInFavorite = getFavoritesFromPrefs()?.contains(recipeId.toString()) == true
-        _recipeStateLD.value =
-            _recipeStateLD.value?.copy(
-                recipe = recipe,
-                isInFavorite = isInFavorite,
+        viewModelScope.launch {
+            val recipe = recipesRepository.getRecipeById(recipeId).await()
+            val isInFavorite = getFavoritesFromPrefs()?.contains(recipeId.toString()) == true
+            _recipeStateLD.postValue(
+                _recipeStateLD.value?.copy(
+                    recipe = recipe,
+                    isInFavorite = isInFavorite,
+                )
             )
+        }
+
 
     }
 
