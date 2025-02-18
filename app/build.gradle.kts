@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlinx.serialisation)
     alias(libs.plugins.android.safe.args)
+    alias(libs.plugins.ksp)
     id("kotlin-parcelize")
 }
 
@@ -55,9 +56,12 @@ dependencies {
     implementation(libs.gson.v288)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
-    implementation (libs.retrofit)
+    implementation(libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation (libs.glide)
+    implementation(libs.glide)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
 //  Test libs
     testImplementation(libs.junit)
