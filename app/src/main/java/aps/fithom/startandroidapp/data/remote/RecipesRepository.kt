@@ -1,43 +1,34 @@
 package aps.fithom.startandroidapp.data.remote
 
-import android.app.Application
-import android.util.Log
-import aps.fithom.startandroidapp.data.local.MyApp
 import aps.fithom.startandroidapp.domain.models.Category
 import aps.fithom.startandroidapp.domain.models.Recipe
-import java.util.concurrent.Callable
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 
-class RecipesRepository(application: Application) {
+class RecipesRepository(private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
-    private val executorService = (application as? MyApp)?.executorService
     private val recipeService = RetrofitClient.instance
 
-    fun getCategories(): List<Category>? {
-        executorService?.let { executorService ->
-            val future = executorService.submit(Callable {
-                recipeService.getCategories().let { call ->
-                    call.execute().let { response ->
-                        if (response.isSuccessful) {
-                            response.body()
-                        } else {
-                            null
-                        }
+    suspend fun getCategories(): Deferred<List<Category>?> = withContext(defaultDispatcher) {
+        async {
+            recipeService.getCategories().let { call ->
+                call.execute().let { response ->
+                    if (response.isSuccessful) {
+                        response.body()
+                    } else {
+                        null
                     }
                 }
-            })
-            return try {
-                future.get()
-            } catch (e: Exception) {
-                Log.d("|||", e.message.toString())
-                null
             }
         }
-        return null
     }
 
-    fun getRecipesByCategoryId(categoryId: Int): List<Recipe>? {
-        executorService?.let { executorService ->
-            val future = executorService.submit(Callable {
+    suspend fun getRecipesByCategoryId(categoryId: Int): Deferred<List<Recipe>?> =
+        withContext(defaultDispatcher) {
+            async {
                 recipeService.getRecipesByCategoryId(categoryId).let { call ->
                     call.execute().let { response ->
                         if (response.isSuccessful) {
@@ -47,20 +38,12 @@ class RecipesRepository(application: Application) {
                         }
                     }
                 }
-            })
-            return try {
-                future.get()
-            } catch (e: Exception) {
-                Log.d("|||", e.message.toString())
-                null
             }
         }
-        return null
-    }
 
-    fun getRecipesByIds(ids: Set<Int>): List<Recipe>? {
-        executorService?.let { executorService ->
-            val future = executorService.submit(Callable {
+    suspend fun getRecipesByIds(ids: Set<Int>): Deferred<List<Recipe>?> =
+        withContext(defaultDispatcher) {
+            async {
                 recipeService.getRecipesByIds(ids.joinToString(separator = ",")).let { call ->
                     call.execute().let { response ->
                         if (response.isSuccessful) {
@@ -70,38 +53,20 @@ class RecipesRepository(application: Application) {
                         }
                     }
                 }
-            })
-            return try {
-                future.get()
-            } catch (e: Exception) {
-                Log.d("|||", e.message.toString())
-                null
             }
         }
-        return null
-    }
 
-    fun getRecipeById(recipeId: Int): Recipe? {
-        executorService?.let { executorService ->
-            val future = executorService.submit(Callable {
-                recipeService.getRecipeById(recipeId).let { call ->
-                    call.execute().let { response ->
-                        if (response.isSuccessful) {
-                            response.body()
-                        } else {
-                            null
-                        }
+    suspend fun getRecipeById(recipeId: Int): Deferred<Recipe?> = withContext(defaultDispatcher) {
+        async {
+            recipeService.getRecipeById(recipeId).let { call ->
+                call.execute().let { response ->
+                    if (response.isSuccessful) {
+                        response.body()
+                    } else {
+                        null
                     }
                 }
-            })
-            return try {
-                future.get()
-            } catch (e: Exception) {
-                Log.d("|||", e.message.toString())
-                null
             }
         }
-        return null
     }
-
 }

@@ -37,14 +37,14 @@ class RecipeListRVAdapter() :
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
         val item = recipesList[position]
         holder.tvRecipeName.text = item.title
-        holder.itemView.context?.getDrawableOrNullFromAssetsByPath(item.imageUrl)?.let { drawable ->
-            holder.ivRecipeLogo.setImageDrawable(drawable)
-            holder.ivRecipeLogo.contentDescription =
-                holder.itemView.context.getString(
-                    R.string.content_description_recipe_img,
-                    item.title
-                )
-        }
+//        holder.itemView.context?.getDrawableOrNullFromAssetsByPath(item.imageUrl)?.let { drawable ->
+//            holder.ivRecipeLogo.setImageDrawable(drawable)
+//            holder.ivRecipeLogo.contentDescription =
+//                holder.itemView.context.getString(
+//                    R.string.content_description_recipe_img,
+//                    item.title
+//                )
+//        }
         Glide.with(holder.itemView.context)
             .load(getFullImgPathByImgName(item.imageUrl))
             .placeholder(R.drawable.img_placeholder)
