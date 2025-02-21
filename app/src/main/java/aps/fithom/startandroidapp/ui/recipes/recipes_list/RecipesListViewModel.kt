@@ -17,7 +17,7 @@ class RecipesListViewModel(private val application: Application) : AndroidViewMo
     private val _recipesListStateLD = MutableLiveData<RecipesListState>(RecipesListState())
     val recipesListStateLD: LiveData<RecipesListState>
         get() = _recipesListStateLD
-    private val recipesRepository = RecipesRepository()
+    private val recipesRepository = RecipesRepository(application)
 
     data class RecipesListState(
         val category: Category? = null,

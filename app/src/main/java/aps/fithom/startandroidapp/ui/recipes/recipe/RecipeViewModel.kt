@@ -21,7 +21,7 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
     private val _recipeStateLD = MutableLiveData<RecipeState>()
     val recipeStateLD: LiveData<RecipeState>
         get() = _recipeStateLD
-    private val recipesRepository = RecipesRepository()
+    private val recipesRepository = RecipesRepository(application)
 
     private val prefs by lazy {
         application.baseContext.getSharedPreferences(

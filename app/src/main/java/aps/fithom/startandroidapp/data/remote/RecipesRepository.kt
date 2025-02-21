@@ -1,5 +1,9 @@
 package aps.fithom.startandroidapp.data.remote
 
+import android.app.Application
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
+import aps.fithom.startandroidapp.data.local.db.RecipesDataBase
 import aps.fithom.startandroidapp.domain.models.Category
 import aps.fithom.startandroidapp.domain.models.Recipe
 import kotlinx.coroutines.CoroutineDispatcher
@@ -8,11 +12,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class RecipesRepository(private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO) {
+class RecipesRepository(
+    application: Application,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
     private val recipeService = RetrofitClient.instance
+    private val recipesDB = RecipesDataBase.getInstance(application)
+    private val categoryDao = recipesDB.categoryDao()
+    val categoryListLD = categoryDao.getAllCategory()
 
-    suspend fun getCategories(): Deferred<List<Category>?> = withContext(defaultDispatcher) {
+    suspend fun fetchCategoryList() {
+        withContext(defaultDispatcher) {
+            getCategoriesFromApi().await()?.let { categoryList ->
+                categoryDao.fetchCategoryList(categoryList)
+            }
+        }
+    }
+
+    suspend fun getCategoriesFromApi(): Deferred<List<Category>?> = withContext(defaultDispatcher) {
         async {
             recipeService.getCategories().let { call ->
                 call.execute().let { response ->
