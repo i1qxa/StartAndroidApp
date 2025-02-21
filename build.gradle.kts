@@ -3,4 +3,5 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.kotlinx.serialisation) apply false
     alias(libs.plugins.android.safe.args) apply false
+    alias(libs.plugins.ksp) apply false
 }
