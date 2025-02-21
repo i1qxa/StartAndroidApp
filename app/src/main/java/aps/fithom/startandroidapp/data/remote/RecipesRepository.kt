@@ -21,12 +21,11 @@ class RecipesRepository(
     private val recipesDB = RecipesDataBase.getInstance(application)
     private val categoryDao = recipesDB.categoryDao()
     val categoryListLD = categoryDao.getAllCategory()
-        .switchMap { categoryDBEntities -> MutableLiveData(categoryDBEntities.map { categoryDBEntity -> categoryDBEntity.toCategory() }) }
 
     suspend fun fetchCategoryList() {
         withContext(defaultDispatcher) {
             getCategoriesFromApi().await()?.let { categoryList ->
-                categoryDao.fetchCategoryList(categoryList.map { it.toCategoryDBEntity() })
+                categoryDao.fetchCategoryList(categoryList)
             }
         }
     }
