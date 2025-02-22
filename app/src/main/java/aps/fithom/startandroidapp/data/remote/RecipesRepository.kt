@@ -20,12 +20,25 @@ class RecipesRepository(
     private val recipeService = RetrofitClient.instance
     private val recipesDB = RecipesDataBase.getInstance(application)
     private val categoryDao = recipesDB.categoryDao()
+    private val recipeDao = recipesDB.recipeDao()
     val categoryListLD = categoryDao.getAllCategory()
+    private val selectedCategoryLD = MutableLiveData<Int>()
+    val categoryWithRecipesLD = selectedCategoryLD.switchMap { categoryId -> categoryDao.getCategoryWithRecipes(categoryId) }
+
 
     suspend fun fetchCategoryList() {
         withContext(defaultDispatcher) {
             getCategoriesFromApi().await()?.let { categoryList ->
                 categoryDao.fetchCategoryList(categoryList)
+            }
+        }
+    }
+
+    suspend fun fetchRecipesByCategoryId(categoryId: Int) {
+        selectedCategoryLD.postValue(categoryId)
+        withContext(defaultDispatcher) {
+            getRecipesByCategoryId(categoryId).await()?.let { recipesList ->
+                recipeDao.fetchRecipes(categoryId, recipesList.map { it.toRecipeDB(categoryId) })
             }
         }
     }
