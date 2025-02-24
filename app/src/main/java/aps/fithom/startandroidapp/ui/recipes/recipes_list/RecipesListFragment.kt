@@ -10,7 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import aps.fithom.startandroidapp.R
+import aps.fithom.startandroidapp.data.local.getFullImgPathByImgName
 import aps.fithom.startandroidapp.databinding.FragmentRecipesListBinding
+import com.bumptech.glide.Glide
 
 class RecipesListFragment : Fragment() {
 
@@ -45,8 +47,12 @@ class RecipesListFragment : Fragment() {
                 binding.ivCategoryImg.contentDescription =
                     getString(R.string.content_description_img_of_category, categoryTitle)
             }
-            recipesListState.categoryImg?.let { categoryImg ->
-                binding.ivCategoryImg.setImageDrawable(categoryImg)
+            recipesListState.category?.let { category ->
+                Glide.with(requireContext())
+                    .load(getFullImgPathByImgName(category.imageUrl))
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_error)
+                    .into(binding.ivCategoryImg)
             }
             recipesListState.recipesList.let { recipes ->
                 if (recipes == null) {

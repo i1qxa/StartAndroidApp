@@ -4,18 +4,24 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import aps.fithom.startandroidapp.domain.models.Category
 
 @Database(
     entities = [
         Category::class,
+        RecipeDBEntity::class,
+        IngredientDBEntity::class
     ],
     exportSchema = false,
     version = 1
 )
+@TypeConverters(StringConverter::class)
 abstract class RecipesDataBase : RoomDatabase() {
 
     abstract fun categoryDao(): CategoryDao
+    abstract fun recipeDao(): RecipeDao
+    abstract fun ingredientDao(): IngredientsDao
 
     companion object {
         private var INSTANCE: RecipesDataBase? = null
