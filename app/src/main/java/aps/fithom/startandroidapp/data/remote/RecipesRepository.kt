@@ -21,10 +21,13 @@ class RecipesRepository(
     private val recipesDB = RecipesDataBase.getInstance(application)
     private val categoryDao = recipesDB.categoryDao()
     private val recipeDao = recipesDB.recipeDao()
+
     val categoryListLD = categoryDao.getAllCategory()
     private val selectedCategoryLD = MutableLiveData<Int>()
     val categoryWithRecipesLD = selectedCategoryLD.switchMap { categoryId -> categoryDao.getCategoryWithRecipes(categoryId) }
-
+    val favoriteRecipes = recipeDao.getFavoriteRecipes().switchMap { recipesWithIngredients -> MutableLiveData(recipesWithIngredients.map { it.toRecipe() }) }
+    private val selectedRecipeId = MutableLiveData<Int>()
+    val selectedRecipeLD = selectedRecipeId.switchMap { recipeDao.getRecipeWithIngredientById(it) }
 
     suspend fun fetchCategoryList() {
         withContext(defaultDispatcher) {
@@ -34,11 +37,25 @@ class RecipesRepository(
         }
     }
 
+    suspend fun fetchRecipe(recipeId:Int){
+        withContext(defaultDispatcher) {
+            getRecipeById(recipeId).await()?.let { recipe ->
+                recipeDao.fetchRecipe(recipe)
+            }
+        }
+    }
+
+    suspend fun changeInFavoriteState(){
+        selectedRecipeId.value?.let {
+            recipeDao.changeInFavoriteState(it)
+        }
+    }
+
     suspend fun fetchRecipesByCategoryId(categoryId: Int) {
         selectedCategoryLD.postValue(categoryId)
         withContext(defaultDispatcher) {
             getRecipesByCategoryId(categoryId).await()?.let { recipesList ->
-                recipeDao.fetchRecipes(categoryId, recipesList.map { it.toRecipeDB(categoryId) })
+                recipeDao.fetchRecipes(categoryId, recipesList.map { it.toRecipeDBWithIngredients(categoryId) })
             }
         }
     }
@@ -72,20 +89,20 @@ class RecipesRepository(
             }
         }
 
-    suspend fun getRecipesByIds(ids: Set<Int>): Deferred<List<Recipe>?> =
-        withContext(defaultDispatcher) {
-            async {
-                recipeService.getRecipesByIds(ids.joinToString(separator = ",")).let { call ->
-                    call.execute().let { response ->
-                        if (response.isSuccessful) {
-                            response.body()
-                        } else {
-                            null
-                        }
-                    }
-                }
-            }
-        }
+//    suspend fun getRecipesByIds(ids: Set<Int>): Deferred<List<Recipe>?> =
+//        withContext(defaultDispatcher) {
+//            async {
+//                recipeService.getRecipesByIds(ids.joinToString(separator = ",")).let { call ->
+//                    call.execute().let { response ->
+//                        if (response.isSuccessful) {
+//                            response.body()
+//                        } else {
+//                            null
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
     suspend fun getRecipeById(recipeId: Int): Deferred<Recipe?> = withContext(defaultDispatcher) {
         async {

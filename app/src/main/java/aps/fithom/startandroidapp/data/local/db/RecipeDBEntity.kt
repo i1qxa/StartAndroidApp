@@ -1,5 +1,6 @@
 package aps.fithom.startandroidapp.data.local.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -14,7 +15,6 @@ import java.util.ArrayList
             entity = Category::class,
             parentColumns = ["id"],
             childColumns = ["categoryId"],
-            onDelete = ForeignKey.CASCADE
         )
     ]
 )
@@ -26,8 +26,14 @@ data class RecipeDBEntity(
     val title: String,
     val method: List<String>?,
     val imageUrl: String,
+    @ColumnInfo(defaultValue = "0")
+    val inFavorite:Boolean = false
 ) {
 
     fun toRecipe() = Recipe(id, title, null, ArrayList(method?: emptyList()), imageUrl)
+
+    companion object{
+        const val EMPTY_CATEGORY_ID = -1
+    }
 
 }

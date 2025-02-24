@@ -2,6 +2,7 @@ package aps.fithom.startandroidapp.domain.models
 
 import android.os.Parcelable
 import aps.fithom.startandroidapp.data.local.db.RecipeDBEntity
+import aps.fithom.startandroidapp.data.local.db.RecipesWithIngredientsDBEntity
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -17,6 +18,8 @@ data class Recipe(
 
     fun toRecipeDB(categoryId:Int) = RecipeDBEntity(id, categoryId, title, method, imageUrl)
 
-    fun toIngredientList() = ingredients?.map { it.toIngredientDB(id) }
+    fun toIngredientDBList() = ingredients?.map { it.toIngredientDB(id) }
+
+    fun toRecipeDBWithIngredients(categoryId: Int) = RecipesWithIngredientsDBEntity(toRecipeDB(categoryId), toIngredientDBList())
 
 }

@@ -1,6 +1,7 @@
 package aps.fithom.startandroidapp.data.local.db
 
 import android.app.Application
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -13,8 +14,12 @@ import aps.fithom.startandroidapp.domain.models.Category
         RecipeDBEntity::class,
         IngredientDBEntity::class
     ],
-    exportSchema = false,
-    version = 1
+    exportSchema = true,
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
+    ]
+
 )
 @TypeConverters(StringConverter::class)
 abstract class RecipesDataBase : RoomDatabase() {

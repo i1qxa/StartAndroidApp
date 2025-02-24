@@ -11,5 +11,5 @@ data class CategoryWithRecipes(
         parentColumn = "id",
         entityColumn = "categoryId"
     )
-    val recipes: List<RecipeDBEntity>
+    val recipes: List<RecipesWithIngredientsDBEntity>
 )
