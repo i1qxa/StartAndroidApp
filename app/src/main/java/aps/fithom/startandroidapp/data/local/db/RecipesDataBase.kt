@@ -14,12 +14,8 @@ import aps.fithom.startandroidapp.domain.models.Category
         RecipeDBEntity::class,
         IngredientDBEntity::class
     ],
-    exportSchema = true,
-    version = 2,
-    autoMigrations = [
-        AutoMigration(from = 1, to = 2)
-    ]
-
+    exportSchema = false,
+    version = 1,
 )
 @TypeConverters(StringConverter::class)
 abstract class RecipesDataBase : RoomDatabase() {

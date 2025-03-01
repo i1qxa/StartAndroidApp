@@ -38,6 +38,9 @@ class RecipesListFragment : Fragment() {
         viewModel.loadCategoryAndUpdateRecipesList(args.Category)
         initUi()
         initRecycler()
+        viewModel.recipesRepository.selectedRecipeLD.observe(viewLifecycleOwner){
+            val c = it
+        }
     }
 
     private fun initUi() {

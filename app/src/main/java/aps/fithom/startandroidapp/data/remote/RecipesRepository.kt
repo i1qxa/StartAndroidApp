@@ -23,8 +23,10 @@ class RecipesRepository(
     private val recipeDao = recipesDB.recipeDao()
 
     val categoryListLD = categoryDao.getAllCategory()
-    private val selectedCategoryLD = MutableLiveData<Int>()
-    val categoryWithRecipesLD = selectedCategoryLD.switchMap { categoryId -> categoryDao.getCategoryWithRecipes(categoryId) }
+    private val selectedCategoryIdLD = MutableLiveData<Int>()
+//    val categoryWithRecipesLD = selectedCategoryLD.switchMap { categoryId -> categoryDao.getCategoryById(categoryId) }
+    val selectedCategoryLD = selectedCategoryIdLD.switchMap { categoryId -> categoryDao.getCategoryById(categoryId) }
+    val recipesInSelectedCategory = selectedCategoryIdLD.switchMap { recipeDao.getRecipesWithIngredientsByCategoryId(it) }
     val favoriteRecipes = recipeDao.getFavoriteRecipes().switchMap { recipesWithIngredients -> MutableLiveData(recipesWithIngredients.map { it.toRecipe() }) }
     private val selectedRecipeId = MutableLiveData<Int>()
     val selectedRecipeLD = selectedRecipeId.switchMap { recipeDao.getRecipeWithIngredientById(it) }
@@ -52,7 +54,7 @@ class RecipesRepository(
     }
 
     suspend fun fetchRecipesByCategoryId(categoryId: Int) {
-        selectedCategoryLD.postValue(categoryId)
+        selectedCategoryIdLD.postValue(categoryId)
         withContext(defaultDispatcher) {
             getRecipesByCategoryId(categoryId).await()?.let { recipesList ->
                 recipeDao.fetchRecipes(categoryId, recipesList.map { it.toRecipeDBWithIngredients(categoryId) })

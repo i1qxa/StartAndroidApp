@@ -12,19 +12,19 @@ import aps.fithom.startandroidapp.domain.models.Category
 interface CategoryDao {
 
     @Query("select * from category")
-    fun getAllCategory():LiveData<List<Category>>
+    fun getAllCategory(): LiveData<List<Category>>
 
     @Query("select * from category where id =:id")
-    fun getCategoryWithRecipes(id:Int):LiveData<CategoryWithRecipes>
+    fun getCategoryById(id: Int): LiveData<Category>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addListCategory(listCategory:List<Category>)
+    suspend fun addListCategory(listCategory: List<Category>)
 
     @Query("delete from category")
     suspend fun clearListCategory()
 
     @Transaction
-    suspend fun fetchCategoryList(listCategory: List<Category>){
+    suspend fun fetchCategoryList(listCategory: List<Category>) {
         clearListCategory()
         addListCategory(listCategory)
     }

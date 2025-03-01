@@ -11,6 +11,7 @@ import aps.fithom.startandroidapp.domain.models.Ingredient
             entity = RecipeDBEntity::class,
             parentColumns = ["id"],
             childColumns = ["recipeId"],
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )

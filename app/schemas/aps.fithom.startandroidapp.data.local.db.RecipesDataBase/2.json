@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "f9905148a27460cce949010f040ac38d",
+    "identityHash": "45e3b5f305fcda25ee2db3b93dba0134",
     "entities": [
       {
         "tableName": "Category",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "RecipeDBEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `categoryId` INTEGER NOT NULL, `title` TEXT NOT NULL, `method` TEXT, `imageUrl` TEXT NOT NULL, `inFavorite` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(`id`), FOREIGN KEY(`categoryId`) REFERENCES `Category`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `categoryId` INTEGER NOT NULL, `title` TEXT NOT NULL, `method` TEXT, `imageUrl` TEXT NOT NULL, `inFavorite` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(`id`), FOREIGN KEY(`categoryId`) REFERENCES `Category`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -94,7 +94,7 @@
         "foreignKeys": [
           {
             "table": "Category",
-            "onDelete": "CASCADE",
+            "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
               "categoryId"
@@ -107,7 +107,7 @@
       },
       {
         "tableName": "IngredientDBEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `recipeId` INTEGER NOT NULL, `quantity` TEXT NOT NULL, `unitOfMeasure` TEXT NOT NULL, `description` TEXT NOT NULL, FOREIGN KEY(`recipeId`) REFERENCES `RecipeDBEntity`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `recipeId` INTEGER NOT NULL, `quantity` TEXT NOT NULL, `unitOfMeasure` TEXT NOT NULL, `description` TEXT NOT NULL, FOREIGN KEY(`recipeId`) REFERENCES `RecipeDBEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -150,7 +150,7 @@
         "foreignKeys": [
           {
             "table": "RecipeDBEntity",
-            "onDelete": "CASCADE",
+            "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
               "recipeId"
@@ -165,7 +165,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f9905148a27460cce949010f040ac38d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '45e3b5f305fcda25ee2db3b93dba0134')"
     ]
   }
 }

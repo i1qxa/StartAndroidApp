@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
@@ -20,7 +21,22 @@ import kotlinx.coroutines.launch
 class RecipeViewModel(private val application: Application) : AndroidViewModel(application) {
 
     private val recipesRepository = RecipesRepository(application)
-    private val _recipeStateLD = recipesRepository.selectedRecipeLD.switchMap { MutableLiveData(RecipeState(it.toRecipe(), it.recipeDB.inFavorite)) }
+    private val portionAmountLD = MutableLiveData<Int>(1)
+
+    //    private val _recipeStateLD = recipesRepository.selectedRecipeLD.switchMap { MutableLiveData(RecipeState(it.toRecipe(), it.recipeDB.inFavorite)) }
+    private val _recipeStateLD = MediatorLiveData<RecipeState>().apply {
+        addSource(recipesRepository.selectedRecipeLD){ recipeDB ->
+            this.value?.let {
+                this.value = it.copy(recipe = recipeDB.toRecipe())
+                this.value = it.copy(isInFavorite = recipeDB.recipeDB.inFavorite)
+            }
+        }
+        addSource(portionAmountLD){ portionAmount ->
+            this.value?.let {
+                this.value = it.copy(portionAmount = portionAmount)
+            }
+        }
+    }
     val recipeStateLD: LiveData<RecipeState>
         get() = _recipeStateLD
 
@@ -77,7 +93,7 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
     }
 
     fun updatePortionAmount(amount: Int) {
-        _recipeStateLD.value = _recipeStateLD.value?.copy(portionAmount = amount)
+        portionAmountLD.value = amount
     }
 
 
