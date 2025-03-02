@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import aps.fithom.startandroidapp.domain.models.Category
+import aps.fithom.startandroidapp.domain.models.Recipe
 
 @Dao
 interface CategoryDao {
@@ -23,9 +24,18 @@ interface CategoryDao {
     @Query("delete from category")
     suspend fun clearListCategory()
 
+    @Query("select id from recipedbentity where isInFavorite = 1")
+    suspend fun getListFavoriteIds():List<Int>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addRecipes(recipes: List<RecipeDBEntity>)
+
     @Transaction
-    suspend fun fetchCategoryList(listCategory: List<Category>){
+    suspend fun fetchCategoryList(listCategory: List<Category>, listRecipes:List<Recipe>){
+        val listFavoriteIds = getListFavoriteIds()
         clearListCategory()
+
+        addRecipes(recipes.map { if (it.id in listFavoriteIds) it.copy(isInFavorite = true) else it })
         addListCategory(listCategory)
     }
 

@@ -1,5 +1,6 @@
 package aps.fithom.startandroidapp.data.local.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -26,6 +27,8 @@ data class RecipeDBEntity(
     val title: String,
     val method: List<String>?,
     val imageUrl: String,
+    @ColumnInfo(defaultValue = "0")
+    val isInFavorite:Boolean = false
 ) {
 
     fun toRecipe() = Recipe(id, title, null, ArrayList(method?: emptyList()), imageUrl)

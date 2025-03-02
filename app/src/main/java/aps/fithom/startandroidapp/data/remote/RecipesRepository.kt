@@ -100,4 +100,15 @@ class RecipesRepository(
             }
         }
     }
+
+    suspend fun changeRecipeFavoriteStateById(recipeId:Int){
+        withContext(defaultDispatcher){
+            recipeDao.changeFavoriteState(recipeId)
+        }
+    }
+
+    suspend fun getFavoriteStateByRecipeId(recipeId:Int) = withContext(defaultDispatcher){
+        recipeDao.getFavoriteStateById(recipeId)
+    }
+
 }
