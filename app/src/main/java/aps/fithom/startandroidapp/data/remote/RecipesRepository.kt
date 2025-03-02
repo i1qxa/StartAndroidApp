@@ -2,7 +2,9 @@ package aps.fithom.startandroidapp.data.remote
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
+import aps.fithom.startandroidapp.data.local.db.RecipeDBEntity
 import aps.fithom.startandroidapp.data.local.db.RecipesDataBase
 import aps.fithom.startandroidapp.domain.models.Category
 import aps.fithom.startandroidapp.domain.models.Recipe
@@ -23,24 +25,30 @@ class RecipesRepository(
     private val recipeDao = recipesDB.recipeDao()
     val categoryListLD = categoryDao.getAllCategory()
     private val selectedCategoryLD = MutableLiveData<Int>()
-    val categoryWithRecipesLD = selectedCategoryLD.switchMap { categoryId -> categoryDao.getCategoryWithRecipes(categoryId) }
+    val categoryWithRecipesLD =
+        selectedCategoryLD.switchMap { categoryId -> categoryDao.getCategoryWithRecipes(categoryId) }
+    private val favoriteIds = recipeDao.getListFavoriteIdsLD()
+    val favoriteRecipes = favoriteIds.switchMap { favoriteIds ->
+        liveData { emit(getRecipesByIds(favoriteIds.toSet())) }
+    }
 
 
     suspend fun fetchCategoryList() {
         withContext(defaultDispatcher) {
             getCategoriesFromApi().await()?.let { categoryList ->
-                categoryDao.fetchCategoryList(categoryList)
+                val recipeList = mutableListOf<RecipeDBEntity>()
+                categoryList.forEach { categoryId ->
+                    getRecipesByCategoryId(categoryId.id).await()?.let {
+                        recipeList.addAll(it.map { it.toRecipeDB(categoryId.id) })
+                    }
+                }
+                categoryDao.fetchCategoryList(categoryList, recipeList)
             }
         }
     }
 
-    suspend fun fetchRecipesByCategoryId(categoryId: Int) {
-        selectedCategoryLD.postValue(categoryId)
-        withContext(defaultDispatcher) {
-            getRecipesByCategoryId(categoryId).await()?.let { recipesList ->
-                recipeDao.fetchRecipes(categoryId, recipesList.map { it.toRecipeDB(categoryId) })
-            }
-        }
+    fun setupSelectedCategoryId(categoryId: Int) {
+        selectedCategoryLD.value = categoryId
     }
 
     suspend fun getCategoriesFromApi(): Deferred<List<Category>?> = withContext(defaultDispatcher) {
@@ -101,13 +109,13 @@ class RecipesRepository(
         }
     }
 
-    suspend fun changeRecipeFavoriteStateById(recipeId:Int){
-        withContext(defaultDispatcher){
+    suspend fun changeRecipeFavoriteStateById(recipeId: Int) {
+        withContext(defaultDispatcher) {
             recipeDao.changeFavoriteState(recipeId)
         }
     }
 
-    suspend fun getFavoriteStateByRecipeId(recipeId:Int) = withContext(defaultDispatcher){
+    suspend fun getFavoriteStateByRecipeId(recipeId: Int) = withContext(defaultDispatcher) {
         recipeDao.getFavoriteStateById(recipeId)
     }
 

@@ -43,7 +43,13 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
             viewModelScope.launch {
                 recipesRepository.changeRecipeFavoriteStateById(recipeId)
                 _recipeStateLD.value?.let {
-                    _recipeStateLD.postValue(it.copy(isInFavorite = recipesRepository.getFavoriteStateByRecipeId(recipeId)))
+                    _recipeStateLD.postValue(
+                        it.copy(
+                            isInFavorite = recipesRepository.getFavoriteStateByRecipeId(
+                                recipeId
+                            )
+                        )
+                    )
                 }
             }
         }

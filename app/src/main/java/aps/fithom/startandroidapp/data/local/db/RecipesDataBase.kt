@@ -1,7 +1,6 @@
 package aps.fithom.startandroidapp.data.local.db
 
 import android.app.Application
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -12,7 +11,6 @@ import aps.fithom.startandroidapp.domain.models.Category
     entities = [
         Category::class,
         RecipeDBEntity::class,
-        IngredientDBEntity::class
     ],
     exportSchema = false,
     version = 1,
@@ -22,7 +20,6 @@ abstract class RecipesDataBase : RoomDatabase() {
 
     abstract fun categoryDao(): CategoryDao
     abstract fun recipeDao(): RecipeDao
-    abstract fun ingredientDao(): IngredientsDao
 
     companion object {
         private var INSTANCE: RecipesDataBase? = null

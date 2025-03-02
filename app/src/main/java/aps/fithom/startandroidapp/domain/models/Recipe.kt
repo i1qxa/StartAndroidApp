@@ -17,6 +17,4 @@ data class Recipe(
 
     fun toRecipeDB(categoryId:Int) = RecipeDBEntity(id, categoryId, title, method, imageUrl)
 
-    fun toIngredientList() = ingredients?.map { it.toIngredientDB(id) }
-
 }
