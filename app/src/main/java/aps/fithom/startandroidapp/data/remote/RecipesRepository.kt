@@ -31,6 +31,8 @@ class RecipesRepository(
     val favoriteRecipes = favoriteIds.switchMap { favoriteIds ->
         liveData { emit(getRecipesByIds(favoriteIds.toSet())) }
     }
+    private val selectedRecipeId = MutableLiveData<Int>()
+    val isSelectedRecipeInFavoriteLD = selectedRecipeId.switchMap { recipeDao.getFavoriteStateByIdLD(it) }
 
 
     suspend fun fetchCategoryList() {
@@ -47,7 +49,11 @@ class RecipesRepository(
         }
     }
 
-    fun setupSelectedCategoryId(categoryId: Int) {
+    fun selectRecipeId(recipeId:Int){
+        selectedRecipeId.value = recipeId
+    }
+
+    fun selectCategoryById(categoryId: Int) {
         selectedCategoryLD.value = categoryId
     }
 
@@ -95,15 +101,13 @@ class RecipesRepository(
             }
         }
 
-    suspend fun getRecipeById(recipeId: Int): Deferred<Recipe?> = withContext(defaultDispatcher) {
-        async {
-            recipeService.getRecipeById(recipeId).let { call ->
-                call.execute().let { response ->
-                    if (response.isSuccessful) {
-                        response.body()
-                    } else {
-                        null
-                    }
+    suspend fun getRecipeById(recipeId: Int): Recipe? = withContext(defaultDispatcher) {
+        recipeService.getRecipeById(recipeId).let { call ->
+            call.execute().let { response ->
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    null
                 }
             }
         }

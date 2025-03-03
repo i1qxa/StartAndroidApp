@@ -16,6 +16,9 @@ interface RecipeDao {
     @Query("select isInFavorite from recipedbentity where id = :id")
     suspend fun getFavoriteStateById(id: Int): Boolean
 
+    @Query("select isInFavorite from recipedbentity where id = :id")
+    fun getFavoriteStateByIdLD(id: Int): LiveData<Boolean>
+
     @Query("select * from recipedbentity where id = :id")
     suspend fun getRecipesById(id: Int): RecipeDBEntity
 

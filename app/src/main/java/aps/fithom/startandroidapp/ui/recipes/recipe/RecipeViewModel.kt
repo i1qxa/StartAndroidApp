@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import aps.fithom.startandroidapp.data.remote.RecipesRepository
@@ -12,10 +13,22 @@ import kotlinx.coroutines.launch
 
 class RecipeViewModel(private val application: Application) : AndroidViewModel(application) {
 
-    private val _recipeStateLD = MutableLiveData<RecipeState>()
+    private val recipesRepository = RecipesRepository(application)
+    private val selectedRecipeLD = MutableLiveData<Recipe>()
+    private val _recipeStateLD = MediatorLiveData<RecipeState>().apply {
+        addSource(selectedRecipeLD) { recipe ->
+            this.value?.let {
+                this.value = it.copy(recipe = recipe)
+            }
+        }
+        addSource(recipesRepository.isSelectedRecipeInFavoriteLD) { isInFavorite ->
+            this.value?.let {
+                this.value = it.copy(isInFavorite = isInFavorite)
+            }
+        }
+    }
     val recipeStateLD: LiveData<RecipeState>
         get() = _recipeStateLD
-    private val recipesRepository = RecipesRepository(application)
 
     init {
         Log.i("!!!", "RecipeViewModel init block")
@@ -24,33 +37,16 @@ class RecipeViewModel(private val application: Application) : AndroidViewModel(a
     }
 
     fun loadRecipe(recipeId: Int) {
+        recipesRepository.selectRecipeId(recipeId)
         viewModelScope.launch {
-            val recipe = recipesRepository.getRecipeById(recipeId).await()
-            val isInFavorite = recipesRepository.getFavoriteStateByRecipeId(recipeId)
-            _recipeStateLD.postValue(
-                _recipeStateLD.value?.copy(
-                    recipe = recipe,
-                    isInFavorite = isInFavorite,
-                )
-            )
+            selectedRecipeLD.postValue(recipesRepository.getRecipeById(recipeId))
         }
-
-
     }
 
     fun onFavoritesClicked() {
         _recipeStateLD.value?.recipe?.id?.let { recipeId ->
             viewModelScope.launch {
                 recipesRepository.changeRecipeFavoriteStateById(recipeId)
-                _recipeStateLD.value?.let {
-                    _recipeStateLD.postValue(
-                        it.copy(
-                            isInFavorite = recipesRepository.getFavoriteStateByRecipeId(
-                                recipeId
-                            )
-                        )
-                    )
-                }
             }
         }
     }
