@@ -31,9 +31,8 @@ class RecipesListViewModel(private val application: Application) : AndroidViewMo
 
     fun loadCategoryAndUpdateRecipesList(category: Category) {
         viewModelScope.launch {
-            recipesRepository.fetchRecipesByCategoryId(category.id)
+            recipesRepository.selectCategoryById(category.id)
         }
-
     }
 
 }
