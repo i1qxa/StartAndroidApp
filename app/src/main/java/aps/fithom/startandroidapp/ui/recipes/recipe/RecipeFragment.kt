@@ -8,10 +8,10 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import aps.fithom.startandroidapp.R
+import aps.fithom.startandroidapp.RecipesApplication
 import aps.fithom.startandroidapp.data.local.getFullImgPathByImgName
 import aps.fithom.startandroidapp.databinding.FragmentRecipeBinding
 import com.bumptech.glide.Glide
@@ -23,10 +23,17 @@ class RecipeFragment : Fragment() {
     private val binding: FragmentRecipeBinding
         get() = _binding ?: throw IllegalStateException("FragmentRecipeBinding must not be null")
 
-    private val viewModel by viewModels<RecipeViewModel>()
+    private lateinit var viewModel: RecipeViewModel
     private val ingredientRVAdapter by lazy { IngredientListRVAdapter() }
     private val cookingMethodRVAdapter by lazy { CookingMethodListRVAdapter() }
     private val args by navArgs<RecipeFragmentArgs>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireActivity().application as RecipesApplication).appContainer.recipesViewModelFactory.let {
+            viewModel = it.create()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -114,11 +121,6 @@ class RecipeFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    companion object {
-        const val PREFS_NAME = "start_android_app_prefs"
-        const val PREFS_FAVORITE_SET = "favorite_set"
     }
 
     class PortionSeekBarListener(private val onChangeIngredients: (Int) -> Unit) :
