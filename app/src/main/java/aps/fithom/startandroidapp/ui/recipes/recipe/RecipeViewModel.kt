@@ -1,19 +1,17 @@
 package aps.fithom.startandroidapp.ui.recipes.recipe
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import aps.fithom.startandroidapp.data.remote.RecipesRepository
 import aps.fithom.startandroidapp.domain.models.Recipe
 import kotlinx.coroutines.launch
 
-class RecipeViewModel(private val application: Application) : AndroidViewModel(application) {
+class RecipeViewModel(private val recipesRepository: RecipesRepository) : ViewModel() {
 
-    private val recipesRepository = RecipesRepository(application)
     private val selectedRecipeLD = MutableLiveData<Recipe>()
     private val _recipeStateLD = MediatorLiveData<RecipeState>().apply {
         addSource(selectedRecipeLD) { recipe ->
