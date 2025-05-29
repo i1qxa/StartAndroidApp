@@ -7,9 +7,12 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import aps.fithom.startandroidapp.data.remote.RecipesRepository
 import aps.fithom.startandroidapp.domain.models.Category
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CategoryViewModel(private val recipesRepository:RecipesRepository) : ViewModel() {
+@HiltViewModel
+class CategoryViewModel @Inject constructor (private val recipesRepository:RecipesRepository) : ViewModel() {
 
     private val _categoryStateLD =
         recipesRepository.categoryListLD.switchMap { MutableLiveData(CategoryState(it)) }

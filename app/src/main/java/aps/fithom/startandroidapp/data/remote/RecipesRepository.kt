@@ -13,13 +13,16 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class RecipesRepository(
+class RecipesRepository @Inject constructor(
     private val recipeService: RecipesService,
     private val categoryDao: CategoryDao,
     private val recipeDao: RecipeDao,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
+
+
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     val categoryListLD = categoryDao.getAllCategory()
     private val selectedCategoryLD = MutableLiveData<Int>()

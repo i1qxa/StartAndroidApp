@@ -1,10 +1,7 @@
 package aps.fithom.startandroidapp
 
 import android.app.Application
-import aps.fithom.startandroidapp.data.di.AppContainer
+import dagger.hilt.android.HiltAndroidApp
 
-class RecipesApplication:Application() {
-
-    val appContainer by lazy { AppContainer(this) }
-
-}
+@HiltAndroidApp
+class RecipesApplication:Application() {}
