@@ -8,9 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import aps.fithom.startandroidapp.data.remote.RecipesRepository
 import aps.fithom.startandroidapp.domain.models.Recipe
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecipeViewModel(private val recipesRepository: RecipesRepository) : ViewModel() {
+@HiltViewModel
+class RecipeViewModel @Inject constructor(private val recipesRepository: RecipesRepository) : ViewModel() {
 
     private val selectedRecipeLD = MutableLiveData<Recipe>()
     private val _recipeStateLD = MediatorLiveData<RecipeState>().apply {

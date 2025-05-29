@@ -4,4 +4,5 @@ plugins {
     alias(libs.plugins.kotlinx.serialisation) apply false
     alias(libs.plugins.android.safe.args) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.hilt) apply false
 }

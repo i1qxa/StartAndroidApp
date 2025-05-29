@@ -8,7 +8,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import aps.fithom.startandroidapp.R
 import aps.fithom.startandroidapp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
@@ -45,11 +47,6 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    companion object {
-        const val LOG_TAG = "|||"
-        const val BASE_URL = "https://recipes.androidsprint.ru/api"
     }
 
 }

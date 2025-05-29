@@ -8,31 +8,30 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import aps.fithom.startandroidapp.R
-import aps.fithom.startandroidapp.RecipesApplication
 import aps.fithom.startandroidapp.data.local.getFullImgPathByImgName
 import aps.fithom.startandroidapp.databinding.FragmentRecipeBinding
 import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
     private val binding: FragmentRecipeBinding
         get() = _binding ?: throw IllegalStateException("FragmentRecipeBinding must not be null")
 
-    private lateinit var viewModel: RecipeViewModel
+    private val viewModel by viewModels<RecipeViewModel>()
     private val ingredientRVAdapter by lazy { IngredientListRVAdapter() }
     private val cookingMethodRVAdapter by lazy { CookingMethodListRVAdapter() }
     private val args by navArgs<RecipeFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (requireActivity().application as RecipesApplication).appContainer.recipesViewModelFactory.let {
-            viewModel = it.create()
-        }
     }
 
     override fun onCreateView(
