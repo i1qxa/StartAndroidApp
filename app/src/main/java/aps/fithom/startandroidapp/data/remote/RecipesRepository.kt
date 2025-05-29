@@ -1,11 +1,11 @@
 package aps.fithom.startandroidapp.data.remote
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
+import aps.fithom.startandroidapp.data.local.db.CategoryDao
 import aps.fithom.startandroidapp.data.local.db.RecipeDBEntity
-import aps.fithom.startandroidapp.data.local.db.RecipesDataBase
+import aps.fithom.startandroidapp.data.local.db.RecipeDao
 import aps.fithom.startandroidapp.domain.models.Category
 import aps.fithom.startandroidapp.domain.models.Recipe
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,14 +15,12 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 class RecipesRepository(
-    application: Application,
+    private val recipeService: RecipesService,
+    private val categoryDao: CategoryDao,
+    private val recipeDao: RecipeDao,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
-    private val recipeService = RetrofitClient.instance
-    private val recipesDB = RecipesDataBase.getInstance(application)
-    private val categoryDao = recipesDB.categoryDao()
-    private val recipeDao = recipesDB.recipeDao()
     val categoryListLD = categoryDao.getAllCategory()
     private val selectedCategoryLD = MutableLiveData<Int>()
     val categoryWithRecipesLD =
@@ -32,7 +30,8 @@ class RecipesRepository(
         liveData { emit(getRecipesByIds(favoriteIds.toSet())) }
     }
     private val selectedRecipeId = MutableLiveData<Int>()
-    val isSelectedRecipeInFavoriteLD = selectedRecipeId.switchMap { recipeDao.getFavoriteStateByIdLD(it) }
+    val isSelectedRecipeInFavoriteLD =
+        selectedRecipeId.switchMap { recipeDao.getFavoriteStateByIdLD(it) }
 
 
     suspend fun fetchCategoryList() {
@@ -49,7 +48,7 @@ class RecipesRepository(
         }
     }
 
-    fun selectRecipeId(recipeId:Int){
+    fun selectRecipeId(recipeId: Int) {
         selectedRecipeId.value = recipeId
     }
 
@@ -117,10 +116,6 @@ class RecipesRepository(
         withContext(defaultDispatcher) {
             recipeDao.changeFavoriteState(recipeId)
         }
-    }
-
-    suspend fun getFavoriteStateByRecipeId(recipeId: Int) = withContext(defaultDispatcher) {
-        recipeDao.getFavoriteStateById(recipeId)
     }
 
 }
